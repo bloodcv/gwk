@@ -23,10 +23,6 @@ const ConnectUs = () => {
 const Nav = () => {
   const pathname = usePathname();
 
-  useEffect(() => {
-    console.log("pathname", pathname);
-  }, [pathname]);
-
   const routerList: { href?: string; name: string }[] = [
     {
       href: "/",
