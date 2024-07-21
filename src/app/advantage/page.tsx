@@ -32,7 +32,7 @@ const Advantage = () => {
 
   return (
     <div className="flex-1">
-      <h1 className='text-[#9164FF] text-[2.5rem] leading-[3.5rem] mt-[6.5625rem] mb-[3.3125rem] text-center'>我们的优势</h1>
+      <h1 className='text-[#E64921] text-[2.5rem] leading-[3.5rem] mt-[6.5625rem] mb-[3.3125rem] text-center'>我们的优势</h1>
       <ul className='w-full flex justify-center space-x-[3.75rem]'>
         {
           advantageLists.map((_, idx) => (<li key={idx}>

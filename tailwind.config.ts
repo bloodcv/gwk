@@ -9,8 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        // 'about-us': "url('./src/assets/aboutUsBg.png')",
-        'advantage-card': 'linear-gradient( 3deg, rgba(178,139,239,0) 0%, rgba(122,83,218,0.27) 100%)'
+        'advantage-card': 'linear-gradient( 3deg, rgba(230,73,33,0) 0%, rgba(230,73,33,0.27) 100%);',
+        'about-us-tip': "linear-gradient( 175deg, #FFA771 0%, #E64921 100%)"
       },
     },
   },

@@ -3,12 +3,14 @@ const Home = () => {
     <div
       style={{ backgroundSize: "100% 100%" }}
       className="pt-[3.5625rem] bg-no-repeat bg-[url('/assets/aboutUsBg.png')] flex-1 relative">
-      <div className="absolute left-0 bottom-0 bg-[#7A53DA] opacity-70 w-[48.95%] rounded-tr-[12.25rem] px-[4.6875rem] pb-[0.875rem] pt-[1.8125rem]">
-        <h1 className="text-white w-fit mb-[2.25rem] font-semibold text-xl leading-7 relative after:absolute after:content-[''] after:h-1 after:left-0 after:right-0 after:-bottom-4 after:bg-white">关于我们</h1>
+      <div className="absolute left-0 bottom-0 bg-about-us-tip w-[48.95%] rounded-tr-[12.25rem] px-[4.6875rem] pb-[0.875rem] pt-[1.8125rem]">
+        <h1 className="text-white w-fit mb-[2.25rem] font-semibold text-xl leading-7 relative after:absolute after:content-[''] after:h-1 after:left-0 after:right-0 after:-bottom-4 after:bg-white">
+          关于我们
+        </h1>
         <ul className="flex flex-col space-y-8 mb-8 *:*:text-lg *:*:leading-[1.5625rem] *:*:text-white">
           <li>
             <p>
-              北京林开志奇广告有限公司成立于2020年，是一家链接媒体和广告主的全域营销技术服务商，在程序化投放、媒体代理、媒体商业化等业务领域深耕。
+              北京笑然广告有限公司成立于2020年，是一家链接媒体和广告主的全域营销技术服务商，在程序化投放、媒体代理、媒体商业化等业务领域深耕。
             </p>
           </li>
           <li>

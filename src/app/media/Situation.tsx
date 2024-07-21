@@ -32,11 +32,11 @@ const Situation = () => {
   ];
 
   return (
-    <div className="h-[50vw] w-full bg-[#B5AAD5]">
+    <div className="h-[50vw] w-full bg-[#F0F2F5]">
       <div className="flex justify-center items-center mt-[3.75rem] mb-[5rem]">
         <span className="text-[#9164FF] text-[2.1875rem]">资源形式</span>
       </div>
-      <ul className="relative flex justify-center space-x-[3.125rem] *:relative *:z-[2] *:rounded-3xl *:overflow-hidden *:h-[29.64vw] *:w-[15.6vw] *:bg-white *:pb-4 *:pt-6 *:px-7 *:flex *:flex-col *:justify-center w-full after:absolute after:content-[''] after:left-0 after:right-0 after:h-1/2 after:bottom-0 after:bg-[#7A53DA]">
+      <ul className="relative flex justify-center space-x-[3.125rem] *:relative *:z-[2] *:rounded-3xl *:overflow-hidden *:h-[29.64vw] *:w-[15.6vw] *:bg-white *:pb-4 *:pt-6 *:px-7 *:flex *:flex-col *:justify-center w-full after:absolute after:content-[''] after:left-0 after:right-0 after:h-1/2 after:bottom-0 after:bg-[#E64921]">
         {situationList.map((_, idx) => (
           <li key={idx}>
             <div className="mb-[1.1875rem] flex-1 w-full flex items-center justify-center">
