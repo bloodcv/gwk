@@ -9,9 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        // 'about-us': "url('./src/assets/aboutUsBg.png')",
+        'advantage-card': 'linear-gradient( 3deg, rgba(178,139,239,0) 0%, rgba(122,83,218,0.27) 100%)'
       },
     },
   },
