@@ -17,7 +17,7 @@ const AdvantageCard = ({ titleIcon, title, desc }: TAdvantageListItem) => {
         />
         <div
           className={cn(
-            "w-[8rem] h-1 mt-[2.1875rem] mb-[8.1875rem] mx-auto",
+            "w-[8rem] h-1 mt-[2.1875rem] mb-[4.375rem] mx-auto",
             IS_FIRST ? "bg-[#7A53DA]" : "bg-[#E64921]"
           )}></div>
       </div>

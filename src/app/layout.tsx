@@ -1,7 +1,6 @@
 import "./globals.css";
 import Layout from "@/components/Layout";
 import { cn, IS_FIRST } from "@/utils";
-import Head from "next/head";
 
 export default function RootLayout({
   children,
@@ -10,13 +9,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Head>
-        <link rel="icon" href="https://example.com/image.ico"></link>
-      </Head>
+      <head>
+        <title>{ IS_FIRST ? "七喜" : "优米DSP" }</title>
+        <link rel="icon" href={ IS_FIRST ? "/qx.ico" : "/ym.ico" } />
+      </head>
       <body className={cn(IS_FIRST ? "bg-[#191130]" : "bg-white")}>
-        <Layout>
-          {children}
-        </Layout>
+        <Layout>{children}</Layout>
       </body>
     </html>
   );

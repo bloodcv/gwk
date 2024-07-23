@@ -4,7 +4,7 @@ import { cn, IS_FIRST, RTrafficBg } from "@/utils";
 const Traffic = () => {
   return (
     <div
-      className={cn("h-[50vw] w-full flex flex-col pb-[3rem]", {
+      className={cn("h-[70vh] w-full flex flex-col pb-[3rem]", {
         "bg-[#E64921]/5": !IS_FIRST,
       })}>
       <div className="flex justify-center items-center mt-[6.625rem] mb-[2.875rem]">
@@ -13,8 +13,8 @@ const Traffic = () => {
           -海量直连媒体拥有优先挑量权，流量质量、规模有保障
         </span>
       </div>
-      <div className="w-[82.3%] flex-1 my-0 mx-auto overflow-hidden">
-        <Image src={RTrafficBg} alt="" className="block h-full" />
+      <div className="flex-1 my-0 mx-auto overflow-hidden">
+        <Image src={RTrafficBg} alt="" className="block h-full w-auto" />
       </div>
     </div>
   );

@@ -8,7 +8,9 @@ const ConnectUs = () => {
   return (
     <div className="absolute left-0 hidden group-hover:block">
       <div className="h-3"></div>
-      <div className="w-[20.5rem] h-[20.5rem] bg-white rounded-[0.625rem] flex flex-col space-y-[0.75rem] items-center">
+      <div className={cn("w-[20.5rem] h-[20.5rem] bg-white rounded-[0.625rem] flex flex-col space-y-[0.75rem] items-center border border-solid border-[#E7DEDC]", {
+        // "border border-solid border-[#E7DEDC]": !IS_FIRST
+      })}>
         <h2 className="text-black text-lg leading-6 mt-[1.4375rem]">微信扫一扫</h2>
         <div className="w-[15.4375rem] h-[15.4375rem] border border-dashed border-black/40">
           <Image src={RQrCode} alt="" className="block w-full h-full" />
@@ -44,7 +46,9 @@ const Nav = () => {
   ];
 
   return (
-    <div className={cn("fixed z-[2] top-0 min-w-[67.5rem] w-screen h-[3.5625rem]  pl-[18.54%] flex items-center justify-start", IS_FIRST ? "backdrop-blur" : "bg-white/80")}>
+    <div style={IS_FIRST ? {} : {
+      "boxShadow": "0px 2px 9px 0px rgba(213,213,213,0.5)"
+    }} className={cn("fixed z-[2] top-0 min-w-[67.5rem] w-screen h-[3.5625rem] pl-[4.375rem] flex items-center justify-start", IS_FIRST ? "backdrop-blur" : "bg-white/80")}>
       <Link href='/' className={cn(IS_FIRST ? "w-[7.375rem]" : "w-[11rem]")}>
         <Image src={RLogo} alt="" className="block w-full" />
       </Link>

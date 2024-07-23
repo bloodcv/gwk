@@ -10,17 +10,11 @@ import PassValid from "@/assets/passValid.png"
 import PassValid2 from "@/assets/passValid2.png"
 import QrCode from "@/assets/qrCode.png"
 import QrCode2 from "@/assets/qrCode2.png"
-import Situation1_2 from "@/assets/situation1_2.png"
 import Situation1 from "@/assets/situation1.png"
-import Situation2_2 from "@/assets/situation2_2.png"
 import Situation2 from "@/assets/situation2.png"
-import Situation3_2 from "@/assets/situation3_2.png"
 import Situation3 from "@/assets/situation3.png"
-import Situation4_2 from "@/assets/situation4_2.png"
 import Situation4 from "@/assets/situation4.png"
-import Situation5_2 from "@/assets/situation5_2.png"
 import Situation5 from "@/assets/situation5.png"
-import TrafficBg_2 from "@/assets/trafficBg_2.png"
 import TrafficBg from "@/assets/trafficBg.png"
 
 export enum ENV {
@@ -30,11 +24,11 @@ export enum ENV {
 
 export const cn = (...args: ClassValue[]) => twMerge(clsx(args))
 
-export const Env: ENV = ENV.QX
-// export const Env: ENV = ENV.YM
+// export const Env: ENV = ENV.QX
+export const Env: ENV = ENV.YM
 
 // @ts-ignore
-export const IS_FIRST = Env === ENV.YM
+export const IS_FIRST = Env === ENV.QX
 
 export const RLogo = IS_FIRST ? Logo : Logo2
 
@@ -46,15 +40,15 @@ export const RPassValid =  IS_FIRST ? PassValid : PassValid2
 
 export const RQrCode =  IS_FIRST ? QrCode : QrCode2
 
-export const RSituation1 =  IS_FIRST ? Situation1 : Situation1_2
+export const RSituation1 =  Situation1
 
-export const RSituation2 =  IS_FIRST ? Situation2 : Situation2_2
+export const RSituation2 =  Situation2
 
-export const RSituation3 =  IS_FIRST ? Situation3 : Situation3_2
+export const RSituation3 =  Situation3
 
-export const RSituation4 =  IS_FIRST ? Situation4 : Situation4_2
+export const RSituation4 =  Situation4
 
-export const RSituation5 =  IS_FIRST ? Situation5 : Situation5_2
+export const RSituation5 =  Situation5
 
-export const RTrafficBg =  IS_FIRST ? TrafficBg : TrafficBg_2
+export const RTrafficBg =  TrafficBg
 
