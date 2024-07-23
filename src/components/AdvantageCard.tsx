@@ -1,21 +1,42 @@
-import { TAdvantageListItem } from "@/app/advantage/page"
-import Image from 'next/image'
+import { TAdvantageListItem } from "@/app/advantage/page";
+import { cn, IS_FIRST } from "@/utils";
+import Image from "next/image";
 
-const AdvantageCard = ({
-  titleIcon,
-  title,
-  desc
-}: TAdvantageListItem) => {
+const AdvantageCard = ({ titleIcon, title, desc }: TAdvantageListItem) => {
   return (
-    <div className="w-[22.5rem] h-[42.625rem] bg-advantage-card pt-[4.125rem] px-[1.375rem] rounded-3xl overflow-hidden">
+    <div
+      className={cn(
+        "w-[22.5rem] h-[42.625rem] pt-[4.125rem] px-[1.375rem] rounded-3xl overflow-hidden",
+        IS_FIRST ? "bg-qx-advantage-card" : "bg-ym-advantage-card"
+      )}>
       <div className="w-fit my-0 mx-auto">
-        <Image alt='' src={titleIcon} className="block w-[11.1875rem] h-[7.5625rem]" />
-        <div className="bg-[#7A53DA] w-[8rem] h-1 mt-[2.1875rem] mb-[8.1875rem] my-0 mx-auto"></div>
+        <Image
+          alt=""
+          src={titleIcon}
+          className="block w-[11.1875rem] h-[7.5625rem]"
+        />
+        <div
+          className={cn(
+            "w-[8rem] h-1 mt-[2.1875rem] mb-[8.1875rem] mx-auto",
+            IS_FIRST ? "bg-[#7A53DA]" : "bg-[#E64921]"
+          )}></div>
       </div>
-      <span className="inline-block text-2xl text-white w-full text-left mb-8">{title}</span>
-      <p className="opacity-80 text-white text-xl leading-7 w-full text-left">{desc}</p>
+      <span
+        className={cn(
+          "inline-block text-2xl w-full text-left mb-8",
+          IS_FIRST ? "text-white" : "text-[#221F1F]"
+        )}>
+        {title}
+      </span>
+      <p
+        className={cn(
+          "text-xl leading-7 w-full text-left",
+          IS_FIRST ? "text-white/80" : "text-[#221F1F]/80"
+        )}>
+        {desc}
+      </p>
     </div>
   )
-}
+};
 
-export default AdvantageCard
+export default AdvantageCard;

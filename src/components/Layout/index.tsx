@@ -9,7 +9,7 @@ const Layout = ({
   children: ReactNode
 }) => {
   return (
-    <div className="min-h-screen flex flex-col min-w-[67.5rem] w-screen overflow-x-auto">
+    <div className="min-h-full flex flex-col w-full overflow-x-hidden">
       <Nav />
       {children}
       <Footer />

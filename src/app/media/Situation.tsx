@@ -1,42 +1,37 @@
-import SituationIcon1 from "@/assets/situation1.png";
-import SituationIcon2 from "@/assets/situation2.png";
-import SituationIcon3 from "@/assets/situation3.png";
-import SituationIcon4 from "@/assets/situation4.png";
-import SituationIcon5 from "@/assets/situation5.png";
-import { cn } from "@/utils";
+import { cn, IS_FIRST, RSituation1, RSituation2, RSituation3, RSituation4, RSituation5 } from "@/utils";
 import Image from "next/image";
 
 const Situation = () => {
   const situationList = [
     {
-      icon: SituationIcon1,
+      icon: RSituation1,
       desc: "开屏",
     },
     {
-      icon: SituationIcon2,
+      icon: RSituation2,
       desc: "信息流",
     },
     {
-      icon: SituationIcon3,
+      icon: RSituation3,
       desc: "Banner",
     },
     {
-      icon: SituationIcon4,
+      icon: RSituation4,
       desc: "激励视频",
     },
     {
-      icon: SituationIcon5,
+      icon: RSituation5,
       iconClassName: "w-full",
       desc: "视频贴片",
     },
   ];
 
   return (
-    <div className="h-[50vw] w-full bg-[#B5AAD5]">
+    <div className={cn("h-[50vw] w-full", IS_FIRST ? "bg-[#B5AAD5]" : "bg-[#F0F2F5]")}>
       <div className="flex justify-center items-center mt-[3.75rem] mb-[5rem]">
         <span className="text-[#9164FF] text-[2.1875rem]">资源形式</span>
       </div>
-      <ul className="relative flex justify-center space-x-[3.125rem] *:relative *:z-[2] *:rounded-3xl *:overflow-hidden *:h-[29.64vw] *:w-[15.6vw] *:bg-white *:pb-4 *:pt-6 *:px-7 *:flex *:flex-col *:justify-center w-full after:absolute after:content-[''] after:left-0 after:right-0 after:h-1/2 after:bottom-0 after:bg-[#7A53DA]">
+      <ul className={cn("relative flex justify-center space-x-[3.125rem] *:relative *:z-[2] *:rounded-3xl *:overflow-hidden *:h-[29.64vw] *:w-[15.6vw] *:bg-white *:pb-4 *:pt-6 *:px-7 *:flex *:flex-col *:justify-center w-full after:absolute after:content-[''] after:left-0 after:right-0 after:h-1/2 after:bottom-0 ", IS_FIRST? "after:bg-[#7A53DA]": "after:bg-[#E64921]")}>
         {situationList.map((_, idx) => (
           <li key={idx}>
             <div className="mb-[1.1875rem] flex-1 w-full flex items-center justify-center">
