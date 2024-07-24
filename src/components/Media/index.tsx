@@ -1,5 +1,5 @@
-import Situation from "@/app/media/Situation";
-import Traffic from "@/app/media/Traffic";
+import Traffic from "@/components/Media/Traffic";
+import Situation from "@/components/Media/Situation";
 
 const Media = () => {
   return (

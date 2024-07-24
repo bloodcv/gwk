@@ -3,7 +3,7 @@ import { cn, IS_FIRST } from "@/utils";
 const Footer = () => {
   return (
     <div
-      className={cn("w-full py-[1.25rem] text-center", {
+      className={cn("w-full py-[1.25rem] text-center mt-auto", {
         "bg-[#40261B]": !IS_FIRST,
       })}>
       <h1 className="text-white text-sm leading-[1.25rem]">
