@@ -10,11 +10,13 @@ const AdvantageCard = ({ titleIcon, title, desc }: TAdvantageListItem) => {
         IS_FIRST ? "bg-qx-advantage-card" : "bg-ym-advantage-card"
       )}>
       <div className="w-full my-0 mx-auto">
-        <Image
-          alt=""
-          src={titleIcon}
-          className="block max-w-[11.1875rem] w-full h-auto my-0 mx-auto"
-        />
+        {/* <div className="w-full flex justify-center items-center"> */}
+          <Image
+            alt=""
+            src={titleIcon}
+            className="block max-w-[19.75rem] w-full h-auto my-0 mx-auto"
+          />
+        {/* </div> */}
         <div
           className={cn(
             "w-[8rem] h-1 mt-[2.1875rem] mb-[4.375rem] mx-auto",

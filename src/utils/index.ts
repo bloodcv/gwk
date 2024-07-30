@@ -24,8 +24,8 @@ export enum ENV {
 
 export const cn = (...args: ClassValue[]) => twMerge(clsx(args))
 
-// export const Env: ENV = ENV.QX
-export const Env: ENV = ENV.YM
+export const Env: ENV = ENV.QX
+// export const Env: ENV = ENV.YM
 
 // @ts-ignore
 export const IS_FIRST = Env === ENV.QX
