@@ -18,9 +18,9 @@ const Home = () => {
 
   return (
     <div
-      style={{ backgroundSize: "100% 100%" }}
+      style={{ backgroundSize: "cover" }}
       className={
-        cn("pt-[3.5625rem] bg-no-repeat h-[100vh] relative", IS_FIRST ? "bg-[url('/assets/aboutUsBg.png')]" : "bg-[url('/assets/aboutUsBg2.png')]")
+        cn("pt-[3.5625rem] bg-no-repeat h-[100vh] relative bg-clip-content", IS_FIRST ? "bg-[url('/assets/aboutUsBg.png')]" : "bg-[url('/assets/aboutUsBg2.png')]")
       }>
       <div
       className={
