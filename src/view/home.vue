@@ -531,7 +531,7 @@ import Clipboard from 'clipboard'
 import { mapActions } from 'vuex'
 
 export default {
-    name: 'homeb',
+    name: 'home',
     props: {
     },
     components: {
