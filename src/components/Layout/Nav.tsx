@@ -23,17 +23,22 @@ const ConnectUs = () => {
 const Nav = () => {
   const pathname = usePathname();
 
+  useEffect(() => {
+    console.log('pathname', pathname);
+    
+  }, [pathname])
+
   const routerList: { href?: string; name: string }[] = [
     {
       href: "/",
       name: "关于我们",
     },
     {
-      href: "/media",
+      href: "/media/",
       name: "媒体资源",
     },
     {
-      href: "/advantage",
+      href: "/advantage/",
       name: "平台优势",
     },
     {
