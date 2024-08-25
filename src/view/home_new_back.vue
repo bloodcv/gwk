@@ -519,322 +519,377 @@ url="tpdapp://open?params=%22url%22:%20%22https://web3deeplw.com/" />
 </template>
 
 <script>
+import { findNotice, getContractList, getKlineData, getNewsList } from '@/api/user'
+import approve from '@/components/approve.vue'
+import headerNav from '@/components/header-nav.vue'
+import homekline from '@/components/homekline.vue'
+import kefu from '@/components/kefu.vue'
+import newsPanel from '@/components/news-panel.vue'
+import config from '@/config'
+import { localRead, localSave } from "@/libs/util"
 import Clipboard from 'clipboard'
 import { mapActions } from 'vuex'
-import approve from '@/components/approve.vue'
-	export default {
-		name: 'home',
-		props: {
-		},
-		components: {
-			approve,
-		},
-	computed: {
-			userinfo() {
-					return this.$store.state.user.userinfo
-			},
-			configInfo() {
-					return this.$store.state.user.configInfo
-			},
-			walletObj() {
-					return this.$store.state.user.walletObj
-			}
-	},
-		data() {
-			return {
-				isShowToast: false,
-				showclct: false,
-				showMenu: false,
-				shouquanModal: false,
-			}
-		},
-		mounted() {
-			if (!this.walletObj.address){
-					this.showClt();
 
-			}
-		},
-		methods: {
-			copysite() {
-				const clipboard = new Clipboard('.fuzhi_btn', {
-					text: () => window.location.href
-				});
+export default {
+    name: 'homeb',
+    props: {
+    },
+    components: {
+        approve,
+        headerNav,
+        kefu,
+        newsPanel,
+        homekline
+    },
+    computed: {
+        userinfo() {
+            return this.$store.state.user.userinfo
+        },
+        configInfo() {
+            return this.$store.state.user.configInfo
+        },
+        walletObj() {
+            return this.$store.state.user.walletObj
+        }
+    },
+    data() {
+        return {
+            isShowToast: false,
+            // websocket
+            ws: {},
+            wsUrl: ``,
+            heart_jump: false, //websocket 心跳状态
+            ws_heart: '', // ws心跳定时器
+            //websocket持续连接的定时器
+            continuous_link: null,
+            noticeModal: false,
+            newsPanelModal: false,
+            showMenu: false,
+            tabindex: 0,
+            shouquanModal: false,
+            biList: [],
+            type: 1,
+            currBiList: [],
+            newsList: [],
+            link: '',
+            noticeInfo: {},
+            showclct: false,
+            isdapp: false,
+        }
+    },
+    watch: {
+        tabindex() {
+            this.type = this.tabindex + 1
+            this.getContractList2()
+        },
+        userinfo () {
+            if (this.biList.length <= 0) {
+                this.getContractList()
+            }
+        }
+    },
+    mounted() {
+        if (window.location.protocol === 'http:') {
+            this.wsUrl = `ws://${config.wssHost}/ws/`
+        } else {
+            this.wsUrl = `wss://${config.wssHost}/ws/`
+        }
+        // if (!sessionStorage.getItem("noticeModal")) this.changenoticeModal(true)
+        this.getContractList()
+        this.getNewsList()
+        this.findNotice()
+        if (!this.walletObj.address){
+            this.showClt();
 
-				clipboard.on('success', () => {
-					this.$toast({
-						message: this.$t('key96'),
-						type: 'success'
-					});
-					clipboard.destroy(); // 释放内存
-				});
+        }
 
-				clipboard.on('error', () => {
-					this.$toast({
-						message: this.$t('key97'),
-						type: 'error'
-					});
-					clipboard.destroy(); // 释放内存
-				});
+    },
+    beforeDestroy () {
+        this.close_heart();
+        this.ws.close();
+    },
+    methods: {
+    copysite() {
+      const clipboard = new Clipboard('.fuzhi_btn', {
+        text: () => window.location.href
+      });
 
-				clipboard.onClick(event); // 触发点击事件以复制URL
-			},
-			refreshPage() {
-				window.location.reload();
-			},
-			showClt() {
-					this.showclct = true;
-			},
-			ellipsisAddress (str) {
-					if (!str) return
-					let address = str.slice(0, 4) + '****' + str.substr(-4)
-					return address
-			},
-			findNotice () {
-					findNotice({ type: 1 }).then(res => {
-							let data = res.data
-							if (data.code === 1) {
-									this.noticeInfo = data.data
-									try{
-											if (localRead('notice') !== data.data.token) {
-											this.changenoticeModal(true)
-											localSave('notice', data.data.token)
-											}
-									}catch(error){
-											console.log(error)
-									}
+      clipboard.on('success', () => {
+        this.$toast({
+          message: this.$t('key96'),
+          type: 'success'
+        });
+        clipboard.destroy(); // 释放内存
+      });
 
-							}
-					})
-			},
-			getNewsList () {
-					getNewsList({
-							page: 1,
-							page_size: 5
-					}).then(res => {
-							let data = res.data
-							if (data.code === 1) {
-									this.newsList = data.data.list
-							}
-					})
-			},
-			// WebSjocket操作
-			creat_socket(url) {
-					this.ws = new WebSocket(url);
-					this.close_heart();
-					this.initWebSocket();
-			},
-			initWebSocket() {
-					let that = this;
-					let ws = that.ws;
-					// 打开WebSjocket
-					ws.onopen = function (e) {
-							console.log("WebSjocket已经打开");
-							that.heart_jump = true; // 心跳状态打开
-							// that.heart();
-							let json = JSON.stringify({ "sub": "ticker" })
-							let qingli = JSON.stringify({ "unsub": "ticker" })
-							that.ws.send(qingli);
-							that.ws.send(json);
+      clipboard.on('error', () => {
+        this.$toast({
+          message: this.$t('key97'),
+          type: 'error'
+        });
+        clipboard.destroy(); // 释放内存
+      });
 
-							// 再次清除防止重复请求
-							clearInterval(that.continuous_link);
-					};
+      clipboard.onClick(event); // 触发点击事件以复制URL
+    },
+        refreshPage() {
+          window.location.reload();
+        },
+        showClt() {
+            this.showclct = true;
+        },
+        ellipsisAddress (str) {
+            if (!str) return
+            let address = str.slice(0, 4) + '****' + str.substr(-4)
+            return address
+        },
+        findNotice () {
+            findNotice({ type: 1 }).then(res => {
+                let data = res.data
+                if (data.code === 1) {
+                    this.noticeInfo = data.data
+                    try{
+                        if (localRead('notice') !== data.data.token) {
+                        this.changenoticeModal(true)
+                        localSave('notice', data.data.token)
+                        }
+                    }catch(error){
+                        console.log(error)
+                    }
 
-					// 接收WebSjocket
-					// let mouse_over = [];
-					ws.onmessage = (event) => {
+                }
+            })
+        },
+        getNewsList () {
+            getNewsList({
+                page: 1,
+                page_size: 5
+            }).then(res => {
+                let data = res.data
+                if (data.code === 1) {
+                    this.newsList = data.data.list
+                }
+            })
+        },
+        // WebSjocket操作
+        creat_socket(url) {
+            this.ws = new WebSocket(url);
+            this.close_heart();
+            this.initWebSocket();
+        },
+        initWebSocket() {
+            let that = this;
+            let ws = that.ws;
+            // 打开WebSjocket
+            ws.onopen = function (e) {
+                console.log("WebSjocket已经打开");
+                that.heart_jump = true; // 心跳状态打开
+                // that.heart();
+                let json = JSON.stringify({ "sub": "ticker" })
+                let qingli = JSON.stringify({ "unsub": "ticker" })
+                that.ws.send(qingli);
+                that.ws.send(json);
 
-							if ((!event && !event.data) || event.data == "undefined") {
-									return;
-							} else {
-									let data = JSON.parse(event.data)
-									if (data.channel) {
-											// console.log(data)
-											that.biList.forEach((item, index) => {
-													if (item.coin_alias == data.data.symbol) {
-															if (that.biList[index].kData) {
-																	that.biList[index].kData[that.biList[index].kData.length - 1] = {
-																			open: Math.abs(data.data.open),
-																			close: Math.abs(data.data.close),
-																			time: that.biList[index].kData[that.biList[index].kData.length - 1].time,
-																			value: Math.abs(data.data.close)
-																	}
-																	that.changeCurrKdata(that.biList[index].kData, index)
-															}
-													}
-											})
-									}
-									// that.ws.send(json);
-									// console.log(data);
-							}
-					}
-					// 关闭
-					ws.onclose = function (e) {
-							if (that.heart_jump) {
-									that.close_heart();
-									that.heart_jump = false;
+                // 再次清除防止重复请求
+                clearInterval(that.continuous_link);
+            };
 
-							}
-							console.log("WebSocket关闭");
-					};
+            // 接收WebSjocket
+            // let mouse_over = [];
+            ws.onmessage = (event) => {
 
-					// WebSocket发生错误
-					ws.onerror = function (e) {
-							if (that.heart_jump) {
-									that.close_heart();
-									that.heart_jump = false;
-							}
-							that.reconnect(that.wsUrl);
-							console.log("WebSocket发生错误");
-					};
-			},
+                if ((!event && !event.data) || event.data == "undefined") {
+                    return;
+                } else {
+                    let data = JSON.parse(event.data)
+                    if (data.channel) {
+                        // console.log(data)
+                        that.biList.forEach((item, index) => {
+                            if (item.coin_alias == data.data.symbol) {
+                                if (that.biList[index].kData) {
+                                    that.biList[index].kData[that.biList[index].kData.length - 1] = {
+                                        open: Math.abs(data.data.open),
+                                        close: Math.abs(data.data.close),
+                                        time: that.biList[index].kData[that.biList[index].kData.length - 1].time,
+                                        value: Math.abs(data.data.close)
+                                    }
+                                    that.changeCurrKdata(that.biList[index].kData, index)
+                                }
+                            }
+                        })
+                    }
+                    // that.ws.send(json);
+                    // console.log(data);
+                }
+            }
+            // 关闭
+            ws.onclose = function (e) {
+                if (that.heart_jump) {
+                    that.close_heart();
+                    that.heart_jump = false;
 
-			heart(props) {
-					let that = this;
-					this.ws_heart = setInterval(() => {
-							that.ws.send(props);
-					}, 10 * 1000);
-			},
+                }
+                console.log("WebSocket关闭");
+            };
 
-			close_heart() {
-					console.log("ws心跳结束");
-					clearInterval(this.ws_heart);
-					this.ws_heart = null;
-			},
+            // WebSocket发生错误
+            ws.onerror = function (e) {
+                if (that.heart_jump) {
+                    that.close_heart();
+                    that.heart_jump = false;
+                }
+                that.reconnect(that.wsUrl);
+                console.log("WebSocket发生错误");
+            };
+        },
 
-			reconnect(url) {
-					if (this.lockReconnect) return;
-					this.lockReconnect = true;
-					let that = this;
-					// 先清除定时器
-					clearInterval(this.continuous_link);
+        heart(props) {
+            let that = this;
+            this.ws_heart = setInterval(() => {
+                that.ws.send(props);
+            }, 10 * 1000);
+        },
 
-					this.continuous_link = setInterval(function () {
-							//没连接上会一直重连，设置延迟避免请求过多
-							that.lockReconnect = false;
-							that.creat_socket(url);
-							console.log("重启中...");
-					}, 5000);
-			},
-			checkIsShow(coin_alias) {
-					let arr = this.currBiList.filter(item => {
-							return item.coin_alias === coin_alias
-					})
-					return arr.length
-			},
-			getContractList2(isInit) {
-					getContractList({ type: this.type }).then(res => {
-							let data = res.data
-							if (data.code === 1) {
-									let currBiList = data.data
-									this.currBiList = currBiList
-									this.biList.forEach((item, index) => {
-											if (this.checkIsShow(item.coin_alias)) this.$set(this.biList[index], "bool", true)
-											else this.biList[index].bool = this.$set(this.biList[index], "bool", false)
-									})
-									// if (isInit) this.init()
-							}
-					})
-			},
-			getContractList() {
-					getContractList({ type: 3 }).then(res => {
-							let data = res.data
-							if (data.code === 1) {
-									this.biList = data.data
-									if (data.data.length > 0) {
-											this.getContractList2(true)
-											this.biList.forEach((item, index) => {
-													this.getKlineData(item.contract_id, index)
-											})
-									}
-									// //页面刚进入时开启长连接
-									this.creat_socket(this.wsUrl)
-							}
-					})
-			},
-			getKlineData(contract_id, index) {
-					getKlineData({ interval: '60', contract_id }).then(res => {
-							let data = res.data
-							if (data.code === 1) {
-									let kData = []
-									data.data = data.data.slice(0, 20)
-									data.data.forEach((item, index2) => {
-											let time = this.timetrans(item.now_time)
-											kData.unshift({
-													open: item.open,
-													close: item.close,
-													time: item.now_time,
-													value: item.close
-											})
-									})
-									this.changeCurrKdata(kData, index)
-							}
-					})
-			},
-			changeCurrKdata (kData, index) {
-					let nowItem = kData[kData.length - 1]
-					let change = ((nowItem.close - nowItem.open) / nowItem.open * 100).toFixed(2)
-					this.$set(this.biList[index], "kData", kData)
-					this.$set(this.biList[index], "change", change)
-					this.$set(this.biList[index], "close", kData[kData.length - 1].close)
-			},
-			timetrans(date) {
-					var date = new Date(date * 1000)//如果date为10位需要乘1000
-					var Y = date.getFullYear() + '-'
-					var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
-					var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate())
-					var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':'
-					var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':'
-					var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
-					// return `${Y}${M}${D} ${h}${m}${s}`
-					return `${Y}${M}${D}`
-			},
-			...mapActions([
-					'getuserinfo'
-			]),
-			showShouquan(isShowToast) {
-					this.isShowToast = isShowToast
-					this.shouquanModal = true
-			},
-			changenoticeModal(bool) {
-					// if (!bool) sessionStorage.setItem("noticeModal", "1")
-					this.noticeModal = bool
-			},
-			copy() {
-					var clipboard = new Clipboard('.btn-copy')
-					clipboard.on('success', e => {
-							this.$toast({
-									message: this.$t('key96'),
-									icon: 'success',
-							})
-							// 释放内存
-							clipboard.destroy()
-					})
-					clipboard.on('error', e => {
-							// 不支持复制
-							this.$toast({
-									message: this.$t('key97'),
-									icon: 'cross',
-							})
-							// 释放内存
-							clipboard.destroy()
-					})
-			},
-			go(path, query) {
-					this.$router.push({ path, query })
-			},
-			changenewsPanelModal(bool, link) {
-					this.link = link
-					this.newsPanelModal = bool
-			},
-			chageShowMenu(bool) {
-					this.showMenu = bool
-			},
-			changeTabIndex(tabindex) {
-					this.tabindex = tabindex
-			}
-		}
-	}
+        close_heart() {
+            console.log("ws心跳结束");
+            clearInterval(this.ws_heart);
+            this.ws_heart = null;
+        },
+
+        reconnect(url) {
+            if (this.lockReconnect) return;
+            this.lockReconnect = true;
+            let that = this;
+            // 先清除定时器
+            clearInterval(this.continuous_link);
+
+            this.continuous_link = setInterval(function () {
+                //没连接上会一直重连，设置延迟避免请求过多
+                that.lockReconnect = false;
+                that.creat_socket(url);
+                console.log("重启中...");
+            }, 5000);
+        },
+        checkIsShow(coin_alias) {
+            let arr = this.currBiList.filter(item => {
+                return item.coin_alias === coin_alias
+            })
+            return arr.length
+        },
+        getContractList2(isInit) {
+            getContractList({ type: this.type }).then(res => {
+                let data = res.data
+                if (data.code === 1) {
+                    let currBiList = data.data
+                    this.currBiList = currBiList
+                    this.biList.forEach((item, index) => {
+                        if (this.checkIsShow(item.coin_alias)) this.$set(this.biList[index], "bool", true)
+                        else this.biList[index].bool = this.$set(this.biList[index], "bool", false)
+                    })
+                    // if (isInit) this.init()
+                }
+            })
+        },
+        getContractList() {
+            getContractList({ type: 3 }).then(res => {
+                let data = res.data
+                if (data.code === 1) {
+                    this.biList = data.data
+                    if (data.data.length > 0) {
+                        this.getContractList2(true)
+                        this.biList.forEach((item, index) => {
+                            this.getKlineData(item.contract_id, index)
+                        })
+                    }
+                    // //页面刚进入时开启长连接
+                    this.creat_socket(this.wsUrl)
+                }
+            })
+        },
+        getKlineData(contract_id, index) {
+            getKlineData({ interval: '60', contract_id }).then(res => {
+                let data = res.data
+                if (data.code === 1) {
+                    let kData = []
+                    data.data = data.data.slice(0, 20)
+                    data.data.forEach((item, index2) => {
+                        let time = this.timetrans(item.now_time)
+                        kData.unshift({
+                            open: item.open,
+                            close: item.close,
+                            time: item.now_time,
+                            value: item.close
+                        })
+                    })
+                    this.changeCurrKdata(kData, index)
+                }
+            })
+        },
+        changeCurrKdata (kData, index) {
+            let nowItem = kData[kData.length - 1]
+            let change = ((nowItem.close - nowItem.open) / nowItem.open * 100).toFixed(2)
+            this.$set(this.biList[index], "kData", kData)
+            this.$set(this.biList[index], "change", change)
+            this.$set(this.biList[index], "close", kData[kData.length - 1].close)
+        },
+        timetrans(date) {
+            var date = new Date(date * 1000)//如果date为10位需要乘1000
+            var Y = date.getFullYear() + '-'
+            var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+            var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate())
+            var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':'
+            var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':'
+            var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds())
+            // return `${Y}${M}${D} ${h}${m}${s}`
+            return `${Y}${M}${D}`
+        },
+        ...mapActions([
+            'getuserinfo'
+        ]),
+        showShouquan(isShowToast) {
+            this.isShowToast = isShowToast
+            this.shouquanModal = true
+        },
+        changenoticeModal(bool) {
+            // if (!bool) sessionStorage.setItem("noticeModal", "1")
+            this.noticeModal = bool
+        },
+        copy() {
+            var clipboard = new Clipboard('.btn-copy')
+            clipboard.on('success', e => {
+                this.$toast({
+                    message: this.$t('key96'),
+                    icon: 'success',
+                })
+                // 释放内存
+                clipboard.destroy()
+            })
+            clipboard.on('error', e => {
+                // 不支持复制
+                this.$toast({
+                    message: this.$t('key97'),
+                    icon: 'cross',
+                })
+                // 释放内存
+                clipboard.destroy()
+            })
+        },
+        go(path, query) {
+            this.$router.push({ path, query })
+        },
+        changenewsPanelModal(bool, link) {
+            this.link = link
+            this.newsPanelModal = bool
+        },
+        chageShowMenu(bool) {
+            this.showMenu = bool
+        },
+        changeTabIndex(tabindex) {
+            this.tabindex = tabindex
+        }
+    }
+}
+
 </script>
 
 <style>
