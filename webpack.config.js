@@ -45,8 +45,14 @@ module.exports = {
         use: 'babel-loader'
       },
       {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot)(\?.*)?$/,
-        use: 'url-loader'
+        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|webp)(\?.*)?$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 1024, // 8KB 阈值
+            name: 'assets/[name].[hash:7].[ext]' // 输出文件路径和命名规则（如果超出阈值）
+          }
+        }
       },
       {
         test: /\.less$/,

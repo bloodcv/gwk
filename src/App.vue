@@ -36,9 +36,9 @@ export default {
         }
     },
   mounted() {
-    // setTimeout(() => {
-    //   document.getElementById('loader-wrapper').remove()
-    // }, 2000)
+    setTimeout(() => {
+      document.getElementById('loader-wrapper').remove()
+    }, 2000)
     // this.getWebCurrency()
     this.configapi()
     this.invite = getQueryVariable('invite')

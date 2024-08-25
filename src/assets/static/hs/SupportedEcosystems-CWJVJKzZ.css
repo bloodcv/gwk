@@ -1,0 +1,48 @@
+.supported-ecosystems__title[data-v-75b030e9] {
+  font-size: 34px;
+  font-weight: 500;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+@media (max-width: 750px) {
+  .supported-ecosystems__title[data-v-75b030e9] {
+    font-size: 6.13vw;
+    margin-bottom: 5.33vw;
+  }
+}
+
+.icons[data-v-75b030e9] {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.icons__content[data-v-75b030e9] {
+  display: inline-block;
+  animation: scroll-75b030e9 90s linear infinite;
+}
+
+.icons__content[data-v-75b030e9]:hover {
+  animation-play-state: paused;
+}
+
+.icons__content__img[data-v-75b030e9] {
+  height: 55px;
+}
+
+@media (max-width: 750px) {
+  .icons__content__img[data-v-75b030e9] {
+    height: 10.3vw;
+  }
+}
+
+@keyframes scroll-75b030e9 {
+  0% {
+    transform: translate(0);
+  }
+
+  to {
+    transform: translate(-50%);
+  }
+}
