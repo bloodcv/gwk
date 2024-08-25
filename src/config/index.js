@@ -1,4 +1,4 @@
 export default {
-  Host: 'http://console.xai-dapp.xyz',
+  Host: 'https://console.xai-dapp.xyz',
   wssHost: 'console.xai-dapp.xyz'
 }
