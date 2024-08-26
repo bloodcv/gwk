@@ -578,7 +578,7 @@
 	import Clipboard from "clipboard";
 	import { mapActions } from "vuex";
 
-	const homeWrapId = 'homePage'
+	const homeWrapId = "homePage";
 
 	export default {
 		name: "home",
@@ -639,8 +639,8 @@
 		},
 		mounted() {
 			try {
-				document.body.classList.add(homeWrapId)
-				document.documentElement.classList.add(homeWrapId)
+				document.body.classList.add(homeWrapId);
+				document.documentElement.classList.add(homeWrapId);
 			} catch (error) {
 				console.log(error);
 			}
@@ -659,8 +659,8 @@
 		},
 		beforeDestroy() {
 			try {
-				document.body.classList.remove(homeWrapId)
-				document.documentElement.classList.remove(homeWrapId)
+				document.body.classList.remove(homeWrapId);
+				document.documentElement.classList.remove(homeWrapId);
 			} catch (error) {
 				console.log(error);
 			}
@@ -965,7 +965,6 @@
 	};
 </script>
 
-
 <style scoped>
 	@import "../assets/static/hs/infinite-scroll-BvINuCRK.css";
 	@import "../assets/static/hs/index-mFqHfHAS.css";
@@ -978,98 +977,96 @@
 		color: unset !important;
 	}
 
-	#homeWrap {
-		iframe {
-			display: none;
-		}
+	#homeWrap iframe {
+		display: none;
+	}
 
-		.white-text {
-			color: #fff;
-		}
+	#homeWrap .white-text {
+		color: #fff;
+	}
 
-		.main-title__desc_wrap {
-			white-space: unset !important;
-		}
+	#homeWrap .main-title__desc_wrap {
+		white-space: unset !important;
+	}
 
-		.supported-ecosystems-wrap {
-			.icons__content {
-				width: max-content;
-			}
+	#homeWrap .supported-ecosystems-wrap {
+		.icons__content {
+			width: max-content;
 		}
+	}
 
-		.ff3a91ea-title {
-			color: #fff;
-			margin-bottom: 0 !important;
-		}
+	#homeWrap .ff3a91ea-title {
+		color: #fff;
+		margin-bottom: 0 !important;
+	}
 
-		.connect_button button {
-			background-color: #0d6efd;
-			height: 40px;
-			width: 140px;
-			border: none;
-			border-radius: 10px;
-		}
+	#homeWrap .connect_button button {
+		background-color: #0d6efd;
+		height: 40px;
+		width: 140px;
+		border: none;
+		border-radius: 10px;
+	}
 
-		.connect_button {
-			position: absolute;
-			left: 60%;
-			top: 10%;
-		}
+	#homeWrap .connect_button {
+		position: absolute;
+		left: 60%;
+		top: 10%;
+	}
 
-		.wallt_cnt {
-			padding-top: 30px;
-			display: flex;
-			padding-left: 30px;
+	#homeWrap .wallt_cnt {
+		padding-top: 30px;
+		display: flex;
+		padding-left: 30px;
+	}
 
-			h2 {
-				color: #000;
-			}
-		}
+	#homeWrap .wallt_cnt h2 {
+		color: #000;
+	}
 
-		.cnct_class {
-			display: flex;
-			justify-content: center;
-		}
+	#homeWrap .cnct_class {
+		display: flex;
+		justify-content: center;
+	}
 
-		.cnct_domain {
-			border: 0px solid rgb(17, 57, 232);
-			background-color: rgb(236, 239, 254);
-			width: 85%;
-			height: 35px;
-			color: rgb(17, 57, 232);
-			font-size: larger;
-			font-weight: 600;
-			align-items: center;
-			display: flex;
-		}
+	#homeWrap .cnct_domain {
+		border: 0px solid rgb(17, 57, 232);
+		background-color: rgb(236, 239, 254);
+		width: 85%;
+		height: 35px;
+		color: rgb(17, 57, 232);
+		font-size: larger;
+		font-weight: 600;
+		align-items: center;
+		display: flex;
+	}
 
-		.fuzhi_btn {
-			width: 20px;
-			height: 20px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			/* 水平居中 */
-			margin: 0 70px;
-			margin-right: 10px;
-		}
+	#homeWrap .fuzhi_btn {
+		width: 20px;
+		height: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		/* 水平居中 */
+		margin: 0 70px;
+		margin-right: 10px;
+	}
 
-		.shuaxin_btn {
-			width: 20px;
-			height: 20px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			/* 水平居中 */
-		}
+	#homeWrap .shuaxin_btn {
+		width: 20px;
+		height: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		/* 水平居中 */
+	}
 
-		.showclct_hr {
-			border: none;
-			margin: 20px 10px;
-		}
+	#homeWrap .showclct_hr {
+		border: none;
+		margin: 20px 10px;
+	}
 
-		.pn_name {
-			color: #fff;
-		}
+	#homeWrap .pn_name {
+		color: #fff;
 	}
 </style>
