@@ -247,5 +247,8 @@ export default {
     font-size: .36rem;
     text-align: center
 }
+.lang-title {
+    color: #000 !important;
+}
 </style>
 

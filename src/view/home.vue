@@ -989,10 +989,8 @@
 		white-space: unset !important;
 	}
 
-	#homeWrap .supported-ecosystems-wrap {
-		.icons__content {
-			width: max-content;
-		}
+	#homeWrap .supported-ecosystems-wrap .icons__content {
+		width: max-content;
 	}
 
 	#homeWrap .ff3a91ea-title {
@@ -1068,8 +1066,5 @@
 
 	#homeWrap .pn_name {
 		color: #fff;
-	}
-	.lang-title {
-		color: #000;
 	}
 </style>
