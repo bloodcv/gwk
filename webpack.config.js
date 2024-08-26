@@ -24,7 +24,8 @@ module.exports = {
     // host: '125.93.77.46',
      proxy: {
        '/api/': {
-         target: 'https://dapp.ys.dfym.cc/',
+        //  target: 'https://dapp.ys.dfym.cc/',
+         target: 'https://console.xai-dapp.xyz/',
          changeOrigin: true
        }
      },
