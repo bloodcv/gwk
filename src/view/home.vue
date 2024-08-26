@@ -1069,4 +1069,7 @@
 	#homeWrap .pn_name {
 		color: #fff;
 	}
+	.lang-title {
+		color: #000;
+	}
 </style>
