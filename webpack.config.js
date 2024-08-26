@@ -45,7 +45,7 @@ module.exports = {
         use: 'babel-loader'
       },
       {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|webp)(\?.*)?$/,
         use: 'url-loader'
       },
       {
