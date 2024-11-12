@@ -1,18 +1,10 @@
-<script setup lang="ts">
-import WelcomeItem from '@com/WelcomeItem';
-import DocumentationIcon from './icons/IconDocumentation.vue';
-import ToolingIcon from './icons/IconTooling.vue';
-import EcosystemIcon from './icons/IconEcosystem.vue';
-import CommunityIcon from './icons/IconCommunity.vue';
-import SupportIcon from './icons/IconSupport.vue';
-import { ref } from 'vue';
-
-const checked1 = ref(true);
-const checked2 = ref(false);
-const checked3 = ref(false);
-const checked4 = ref(false);
-const checked5 = ref(false);
-const checked6 = ref(false);
+<script setup>
+import WelcomeItem from './WelcomeItem.vue'
+import DocumentationIcon from './icons/IconDocumentation.vue'
+import ToolingIcon from './icons/IconTooling.vue'
+import EcosystemIcon from './icons/IconEcosystem.vue'
+import CommunityIcon from './icons/IconCommunity.vue'
+import SupportIcon from './icons/IconSupport.vue'
 </script>
 
 <template>
@@ -21,22 +13,9 @@ const checked6 = ref(false);
       <DocumentationIcon />
     </template>
     <template #heading>Documentation</template>
-    <div>
-      <el-checkbox v-model="checked1" label="Option 1" size="large" />
-      <el-checkbox v-model="checked2" label="Option 2" size="large" />
-    </div>
-    <div class="my-2">
-      <el-checkbox v-model="checked3" label="Option 1" />
-      <el-checkbox v-model="checked4" label="Option 2" />
-    </div>
-    <div class="mt-2">
-      <el-checkbox v-model="checked5" label="Option 1" size="small" />
-      <el-checkbox v-model="checked6" label="Option 2" size="small" />
-    </div>
+
     Vue’s
-    <a href="https://vuejs.org/" target="_blank" rel="noopener" class="text-3xl"
-      >official documentation</a
-    >
+    <a href="https://vuejs.org/" target="_blank" rel="noopener">official documentation</a>
     provides you with all information you need to get started.
   </WelcomeItem>
 
