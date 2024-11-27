@@ -21,35 +21,8 @@ export const testGetBlockingTool = (data: {
   pageSize: number
   paged: boolean
   'sort.sorted': boolean
-}) => {
-  return http({
-    url: '/blockingTool/find',
-    method: 'get',
-    data
-  })
-}
-
-// demo接口1
-export const userLogin = (data: any) => {
-  return service({
-    url: '/user/user/login',
-    method: 'post',
-    data
-  })
-}
-
-// demo接口2
-export const sendCode = (data: any) => {
-  return service({
-    url: '/user/user/sendCode/' + data,
-    method: 'post'
-  })
-}
-
-// demo接口2
-export const getOrderNo = (data: any) => {
-  return service({
-    url: 'https://www.shenmazong.com/alipay/getOrderNo',
-    method: 'get'
-  })
-}
+}) => http({
+  url: '/blockingTool/find',
+  method: 'get',
+  data
+})

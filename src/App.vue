@@ -14,7 +14,7 @@
     }">Login</el-button>
     <el-button type="success" class="!ml-0" v-on:click="() => {
       router.push({
-        name: ERouterName.Dashbord,
+        name: ERouterName.Dashboard,
       })
     }">Home</el-button>
   </div>

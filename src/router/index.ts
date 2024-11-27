@@ -3,7 +3,7 @@ import { capitalizeFirstLetter } from "@/util"
 
 export enum ERouterName {
   Login = 'login',
-  Dashbord = 'dashbord',
+  Dashboard = 'dashboard',
   Report = 'report',
   Media = 'media',
   NewAd = 'newAd',
@@ -35,7 +35,7 @@ const router = createRouter({
     {
       path: '/',
       redirect: {
-        name: 'dashbord'
+        name: 'dashboard'
       }
     },
     ...Object.entries(routerMap).map(([key, _]) => {
@@ -54,7 +54,13 @@ const router = createRouter({
         }))
       }
       return curRoute
-    })
+    }),
+    {
+      path: '/:catchAll(.*)',
+      redirect: {
+        name: 'dashboard'
+      }
+    }
   ]
 })
 

@@ -7,7 +7,7 @@
     <h1>Home</h1>
     <nav>
       <RouterLink to="/login">Login</RouterLink>
-      <RouterLink to="/dashbord">Dashbord</RouterLink>
+      <RouterLink to="/dashboard">Dashboard</RouterLink>
       <RouterLink to="/report">Report</RouterLink>
       <RouterLink to="/media">Media</RouterLink>
       <RouterLink to="/newAd">NewAd</RouterLink>
