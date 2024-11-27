@@ -6,20 +6,22 @@
 
 <template>
   <h1>Home</h1>
-  <el-button type="primary" v-on:click="() => {
-    router.push({
-      name: ERouterName.Login,
-    })
-  }">Login</el-button>
-  <el-button type="success" v-on:click="() => {
-    router.push({
-      name: ERouterName.Dashbord,
-    })
-  }">Home</el-button>
-  <nav>
+  <div class="flex flex-col w-48 items-start gap-4">
+    <el-button type="primary" v-on:click="() => {
+      router.push({
+        name: ERouterName.Login,
+      })
+    }">Login</el-button>
+    <el-button type="success" class="!ml-0" v-on:click="() => {
+      router.push({
+        name: ERouterName.Dashbord,
+      })
+    }">Home</el-button>
+  </div>
+  <!-- <nav>
     <RouterLink to="/login">Login</RouterLink>
     <RouterLink to="/">Home</RouterLink>
-  </nav>
+  </nav> -->
   <RouterView />
 </template>
 
