@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <h1>Home</h1>
+  <!-- <h1>Home</h1>
   <div class="flex flex-col w-48 items-start gap-4">
     <el-button type="primary" v-on:click="() => {
       router.push({
@@ -17,11 +17,7 @@
         name: ERouterName.Dashboard,
       })
     }">Home</el-button>
-  </div>
-  <!-- <nav>
-    <RouterLink to="/login">Login</RouterLink>
-    <RouterLink to="/">Home</RouterLink>
-  </nav> -->
+  </div> -->
   <RouterView />
 </template>
 
