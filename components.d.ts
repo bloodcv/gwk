@@ -18,10 +18,13 @@ declare module 'vue' {
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
-    PageWrap: typeof import('./src/components/PageWrap.vue')['default']
+    NavItem: typeof import('./src/components/NavItem.vue')['default']
+    PageWrap: typeof import('./src/components/Layout/PageWrap.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SubPageWrap: typeof import('./src/components/Layout/SubPageWrap.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
+    UserInfo: typeof import('./src/components/UserInfo.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }
 }

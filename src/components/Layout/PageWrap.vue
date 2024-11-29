@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import clsx from 'clsx';
+import clsx from 'clsx'
 
-  const { className } = defineProps({
-    className: String,
-  })
+const { className } = defineProps({
+  className: String,
+})
 </script>
 
 <template>

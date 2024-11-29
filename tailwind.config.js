@@ -5,6 +5,10 @@ export default {
     extend: {
       backgroundImage: {
         'login': "url('./src/assets/img/loginBg.png')",
+        'inner-page': "url('./src/assets/img/innerBg.png')",
+      },
+      colors: {
+        'adx-base': '#5653F6'
       }
     },
   },

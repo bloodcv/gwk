@@ -16,6 +16,61 @@ export enum ERouterName {
   BlockingTools = 'blockingTools'
 }
 
+export const routerMapFlat: Record<ERouterName, {
+  routerName: string
+  cnName: string
+}> = {
+  [ERouterName.Login]: {
+    routerName: 'login',
+    cnName: '登录'
+  },
+  [ERouterName.Dashboard]: {
+    routerName: 'dashboard',
+    cnName: '可视化大图'
+  },
+  [ERouterName.Report]: {
+    routerName: 'report',
+    cnName: '报表'
+  },
+  [ERouterName.Media]: {
+    routerName: 'media',
+    cnName: '媒体管理'
+  },
+  [ERouterName.NewAd]: {
+    routerName: 'newAd',
+    cnName: '新广告位管理'
+  },
+  [ERouterName.Template]: {
+    routerName: 'template',
+    cnName: '模版管理'
+  },
+  [ERouterName.Flow]: {
+    routerName: 'flow',
+    cnName: '流量包'
+  },
+  [ERouterName.DeliveryPlans]: {
+    routerName: 'deliveryPlans',
+    cnName: '投放计划'
+  },
+  [ERouterName.DSP]: {
+    routerName: 'dSP',
+    cnName: 'DSP管理'
+  },
+  [ERouterName.Supplier]: {
+    routerName: 'supplier',
+    cnName: '供应商管理'
+  },
+  [ERouterName.Log]: {
+    routerName: 'log',
+    cnName: '日志'
+  },
+  [ERouterName.BlockingTools]: {
+    routerName: 'blockingTools',
+    cnName: '屏蔽工具'
+  }
+}
+
+
 const routerMap : Record<string, {
   path ?: string
   name ?: string

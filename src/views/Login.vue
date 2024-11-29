@@ -14,12 +14,15 @@ const apiDataTest = async () => {
 import { reactive, ref } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import clsx from 'clsx'
+import { useRouter } from 'vue-router';
+import { ERouterName } from '@/router';
 
 interface RuleForm {
   name: string
   password: string
 }
 
+const router = useRouter()
 const formSize = ref<ComponentSize>('large')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
@@ -33,6 +36,9 @@ const rules = reactive<FormRules<RuleForm>>({
 })
 
 const submitForm = async (formEl: FormInstance | undefined) => {
+  router.push({
+    name: ERouterName.Report,
+  })
   if (!ruleFormRef.value) return
   await ruleFormRef.value.validate((valid, fields) => {
     if (valid) {

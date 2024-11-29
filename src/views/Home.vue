@@ -1,28 +1,35 @@
 <script setup lang="ts">
+import { ERouterName, routerMapFlat } from '@/router'
+import clsx from 'clsx';
+import { useRoute } from 'vue-router';
+const route = useRoute()
+
+console.log('route', route);
+
 
 </script>
 
 <template>
-  <div>
-    <h1>Home</h1>
-    <nav>
-      <RouterLink to="/login">Login</RouterLink>
-      <RouterLink to="/dashboard">Dashboard</RouterLink>
-      <RouterLink to="/report">Report</RouterLink>
-      <RouterLink to="/media">Media</RouterLink>
-      <RouterLink to="/newAd">NewAd</RouterLink>
-      <RouterLink to="/template">Template</RouterLink>
-      <RouterLink to="/flow">Flow</RouterLink>
-      <RouterLink to="/deliveryPlans">DeliveryPlans</RouterLink>
-      <RouterLink to="/dsp">DSP</RouterLink>
-      <RouterLink to="/supplier">Supplier</RouterLink>
-      <RouterLink to="/log">Log</RouterLink>
-      <RouterLink to="/blockingTools">BlockingTools</RouterLink>
-    </nav>
+  <PageWrap class="flex flex-col bg-inner-page bg-cover bg-no-repeat bg-center">
+    <header class="flex justify-start bg-adx-base h-14 px-6">
+      <h1 class="text-white text-2xl font-semibold mr-10 flex items-center">ADX系统</h1>
+      <nav class="flex h-full pt-3">
+        <RouterLink
+          v-for="[key, { routerName, cnName }] in Object.entries(routerMapFlat).filter(
+            ([key]) => key !== ERouterName.Login,
+          )"
+          :key="key"
+          :to="routerName"
+          :class="clsx('w-24 flex items-center justify-center text-white text-sm hover:text-adx-base hover:bg-[#F0F3F7] rounded-tl-xl rounded-tr-xl', {
+            'text-adx-base bg-[#F0F3F7]': route.name === key
+          })"
+          >{{ cnName }}</RouterLink
+        >
+      </nav>
+      <UserInfo className="ml-auto mr-0" />
+    </header>
     <RouterView />
-  </div>
+  </PageWrap>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
