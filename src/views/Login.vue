@@ -12,7 +12,7 @@ const apiDataTest = async () => {
   console.log(res, 'res')
 } */
 import { reactive, ref } from 'vue'
-import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
 import clsx from 'clsx'
 import { useRouter } from 'vue-router';
 import { ERouterName } from '@/router';
@@ -23,7 +23,6 @@ interface RuleForm {
 }
 
 const router = useRouter()
-const formSize = ref<ComponentSize>('large')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
   name: '',
@@ -64,7 +63,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         ref="ruleFormRef"
         :model="ruleForm"
         :rules="rules"
-        :size="formSize"
         status-icon
       >
         <el-form-item prop="name" class="!mb-8">

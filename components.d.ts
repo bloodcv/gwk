@@ -7,11 +7,16 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ContentWrap: typeof import('./src/components/Layout/ContentWrap.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElInput: typeof import('element-plus/es')['ElInput']
+    ElPagination: typeof import('element-plus/es')['ElPagination']
+    ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
+    ElTable: typeof import('element-plus/es')['ElTable']
+    ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
@@ -20,9 +25,11 @@ declare module 'vue' {
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     NavItem: typeof import('./src/components/NavItem.vue')['default']
     PageWrap: typeof import('./src/components/Layout/PageWrap.vue')['default']
+    QueryCom: typeof import('./src/components/Query/QueryCom.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SubPageWrap: typeof import('./src/components/Layout/SubPageWrap.vue')['default']
+    TableCom: typeof import('./src/components/Table/TableCom.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     UserInfo: typeof import('./src/components/UserInfo.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']

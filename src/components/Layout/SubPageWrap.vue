@@ -7,8 +7,10 @@ const { className } = defineProps({
 </script>
 
 <template>
-  <div :class="clsx('flex-1 overflow-hidden', className)">
-    <slot />
+  <div :class="clsx('flex-1 overflow-hidden py-5 px-6', className)">
+    <ContentWrap>
+      <slot />
+    </ContentWrap>
   </div>
 </template>
 
