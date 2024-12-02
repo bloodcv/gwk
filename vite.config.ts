@@ -33,6 +33,8 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `@use "./src/styles/base.scss" as *;`,
+        // api: 'modern' // or "modern"
+        silenceDeprecations: ["legacy-js-api"],
       },
     },
   },

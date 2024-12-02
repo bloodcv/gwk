@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import clsx from 'clsx'
-import { nextTick, onMounted, reactive, ref } from 'vue'
+import { nextTick, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import type { ElTable } from "element-plus"
+import type { TPageInfo, TTableOptionsItem } from '@/type';
 
-const { className } = defineProps({
-  className: String,
-})
+const { className, tableOptions, tableData } = defineProps<{
+  className?: string
+  tableOptions: TTableOptionsItem[]
+  tableData: Record<string, string | number | boolean>[]
+}>()
 
-const initData = [
+/* const initData = [
   {
     date: '2016-05-03',
     name: 'Tom',
@@ -103,26 +106,40 @@ const initData = [
     name: 'Tom',
     address: 'No. 189, Grove St, Los Angeles',
   },
-]
+] */
 
-const tableData = reactive([...initData])
-const currentPage4 = ref(4)
-const pageSize4 = ref(100)
-const disabled = ref(false)
+// const tableData = reactive([...initData])
+const pageInfo = reactive<TPageInfo>({
+  currentPage: 1,
+  pageSize: 50,
+  total: 0,
+  disabled: false,
+})
 const tableHeight = ref('auto')
 const tableRef = ref<InstanceType<typeof ElTable>>()
+const tableWrapRef = ref<HTMLDivElement>()
 
-const fixTableHeight = async () => {
+const fixTableHeight = async (h: number = 0, retry: number = 2) => {
   await nextTick()
   const height = tableRef.value?.height
   if (tableWrapRef.value && tableWrapRef.value?.clientHeight > 40) {
-    if (height === 'auto') {
-      tableHeight.value = `${tableWrapRef.value?.clientHeight}px`
+    console.log(tableWrapRef.value.clientHeight, h, height, retry);
+    if (height === 'auto' && tableWrapRef.value.clientHeight === h) {
+      if (retry > 1) {
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+        fixTableHeight(tableWrapRef.value?.clientHeight, retry - 1)
+      } else {
+        tableHeight.value = `${tableWrapRef.value?.clientHeight}px`
+      }
+      return
     }
-  } else {
-    fixTableHeight()
   }
+  fixTableHeight(tableWrapRef.value?.clientHeight)
 }
+
+/* watch(() => tableData, (newValue, oldValue) => {
+  fixTableHeight()
+}) */
 
 const handleSizeChange = (val: number) => {
   console.log(`${val} items per page`)
@@ -130,7 +147,7 @@ const handleSizeChange = (val: number) => {
 
 const handleCurrentChange = async (val: number) => {
   console.log(`current page: ${val}`)
-  if (val == 6) {
+  /* if (val == 6) {
     tableData.length = 0
     tableData.push({
       date: '2016-05-03',
@@ -144,14 +161,19 @@ const handleCurrentChange = async (val: number) => {
     }
   }
   tableHeight.value = 'auto'
-  fixTableHeight()
+  fixTableHeight() */
 }
-const tableWrapRef = ref<HTMLDivElement>()
 
-onMounted(() => {
+onMounted(async () => {
   fixTableHeight()
 })
 
+defineExpose({
+  pageInfo,
+  changePageInfo: (params: TPageInfo) => {
+    Object.assign(pageInfo, params)
+  },
+})
 </script>
 
 <template>
@@ -167,23 +189,21 @@ onMounted(() => {
         header-cell-class-name="!bg-[#F5F5FC] !text-font-c1 !font-medium"
         cell-class-name="!text-font-c1"
       >
-        <el-table-column prop="date" label="Date"/>
-        <el-table-column prop="name" label="Name"/>
-        <el-table-column prop="address" label="Address" />
+        <el-table-column v-for="_ in tableOptions" :key="_.key" :prop="_.key" :label="_.label"/>
+        <slot name="tableAction"/>
       </el-table>
     </div>
     <el-pagination
       class="w-fit ml-auto mr-0 mt-6 pagination-wrap"
-      v-model:current-page="currentPage4"
-      v-model:page-size="pageSize4"
-      :page-sizes="[100, 200, 300, 400]"
-      :disabled="disabled"
+      :current-page="pageInfo.currentPage"
+      :page-size="pageInfo.pageSize"
+      :page-sizes="[50, 100, 200, 300, 400]"
+      :disabled="pageInfo.disabled"
       background
       layout="total, prev, pager, next, sizes, jumper"
-      :total="1000"
+      :total="pageInfo.total"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      popper-class="kkkkk"
     />
   </div>
 </template>

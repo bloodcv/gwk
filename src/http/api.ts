@@ -1,4 +1,5 @@
 // 1、导入axios以及拦截器
+import type { TGetDspListProps } from "@/type";
 import service from ".";
 
 const http = <T>(query: {
@@ -23,6 +24,12 @@ export const testGetBlockingTool = (data: {
   'sort.sorted': boolean
 }) => http({
   url: '/blockingTool/find',
+  method: 'get',
+  data
+})
+
+export const getDspList = (data: TGetDspListProps) => http({
+  url: '/dsp/find',
   method: 'get',
   data
 })
