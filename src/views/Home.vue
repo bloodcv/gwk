@@ -40,4 +40,10 @@ const route = useRoute()
   </PageWrap>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+:deep(.el-drawer__header),
+:deep(.el-drawer__body),
+:deep(.el-drawer__footer) {
+  @apply m-0 p-0
+}
+</style>

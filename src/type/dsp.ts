@@ -1,7 +1,6 @@
 import type { TRequestTableBase } from "./query"
 
 export type TDspTableItem = {
-  active: boolean
   bidFloor: number
   bidFloorRatio: number
   dsp: string

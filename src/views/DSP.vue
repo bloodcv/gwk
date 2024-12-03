@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import type { FTSearchHandle, TQueryFormMap, TTableOptionsItem, TDspTableItem, TGetDspListProps } from '@/type'
+import type { FTSearchHandle, TQueryFormMap, TTableOptionsItem, TDspTableItem, TGetDspListProps, TDrawerType } from '@/type'
 import { getDspList } from '@/http/api';
+import DspDrawer from '@/components/Drawer/DspDrawer.vue'
 
+const drawerRef = ref<InstanceType<typeof DspDrawer>>()
 const queryComRef = ref()
 const tableComRef = ref()
 const tableData = reactive<TDspTableItem[]>([])
@@ -42,7 +44,6 @@ const tableOptions = reactive<TTableOptionsItem[]>([{
   key: 'profitRate',
   label: '默认利润率',
 }])
-
 const queryFormMap = reactive<TQueryFormMap>({
   search: {
     key: 'search',
@@ -52,6 +53,8 @@ const queryFormMap = reactive<TQueryFormMap>({
     value: '',
   },
 })
+const drawerTitle = ref<string>('')
+const drawerType = ref<TDrawerType>('new')
 
 const searchHandle: FTSearchHandle = async () => {
   getDspTableData()
@@ -86,6 +89,26 @@ const getDspTableData = async () => {
   }
 }
 
+const openDrawer = ({
+  type
+}: {
+  type: TDrawerType
+}) => {
+  drawerType.value = type
+  switch (type) {
+    case 'edit':
+      drawerTitle.value = '编辑DSP'
+      break
+    case 'new':
+    case 'copy':
+      drawerTitle.value = '新建DSP'
+      break
+    default:
+      break
+  }
+  drawerRef.value?.openDrawer()
+}
+
 onMounted(() => {
   getDspTableData()
 })
@@ -103,11 +126,16 @@ onMounted(() => {
     <TableCom ref="tableComRef" :tableData="tableData" :tableOptions="tableOptions">
       <template #tableAction>
         <el-table-column fixed="right" label="操作">
-          <el-button link type="primary" size="large">编辑</el-button>
-          <el-button link type="primary" size="small">复制</el-button>
+          <el-button link type="primary" size="large" @click="openDrawer({
+            type: 'edit'
+          })">编辑</el-button>
+          <el-button link type="primary" size="small" @click="openDrawer({
+            type: 'copy'
+          })">复制</el-button>
         </el-table-column>
       </template>
     </TableCom>
+    <DspDrawer ref="drawerRef" :title="drawerTitle" :type="drawerType" />
   </SubPageWrap>
 </template>
 

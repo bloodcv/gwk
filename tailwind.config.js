@@ -9,8 +9,15 @@ export default {
       },
       colors: {
         'adx-base': '#5653F6',
-        'font-c1': '#2D3138'
-      }
+        'font-c1': '#2D3138',
+        'adx-gray': '#E7E8EE',
+      },
+      spacing: {
+        '18': '4.5rem',
+      },
+      borderRadius: {
+        'r20': '1.25rem'
+      },
     },
   },
   plugins: [],

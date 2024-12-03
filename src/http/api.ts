@@ -4,10 +4,13 @@ import service from ".";
 
 const http = <T>(query: {
   url: string,
-  method: 'get' | 'post',
+  method?: 'get' | 'post',
   data: T
 }) => {
-  return service(query).then(res => ({
+  return service({
+    method: 'post',
+    ...query
+  }).then(res => ({
     data: res.data,
     status: res.status,
     statusText: res.statusText
@@ -30,6 +33,5 @@ export const testGetBlockingTool = (data: {
 
 export const getDspList = (data: TGetDspListProps) => http({
   url: '/dsp/find',
-  method: 'get',
   data
 })

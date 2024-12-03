@@ -10,7 +10,7 @@ export enum ERouterName {
   Template = 'template',
   Flow = 'flow',
   DeliveryPlans = 'deliveryPlans',
-  DSP = 'dSP',
+  DSP = 'dsp',
   Supplier = 'supplier',
   Log = 'log',
   BlockingTools = 'blockingTools'
@@ -53,7 +53,7 @@ export const routerMapFlat: Record<ERouterName, {
     cnName: '投放计划'
   },
   [ERouterName.DSP]: {
-    routerName: 'dSP',
+    routerName: 'dsp',
     cnName: 'DSP管理'
   },
   [ERouterName.Supplier]: {

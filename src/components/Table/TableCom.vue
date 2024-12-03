@@ -123,7 +123,6 @@ const fixTableHeight = async (h: number = 0, retry: number = 2) => {
   await nextTick()
   const height = tableRef.value?.height
   if (tableWrapRef.value && tableWrapRef.value?.clientHeight > 40) {
-    console.log(tableWrapRef.value.clientHeight, h, height, retry);
     if (height === 'auto' && tableWrapRef.value.clientHeight === h) {
       if (retry > 1) {
         await new Promise((resolve) => setTimeout(resolve, 1000))
