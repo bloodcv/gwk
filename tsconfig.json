@@ -14,7 +14,7 @@
       "@/*": ["./src/*"],
 	  "@com/*": ["./src/components/*"]
     },
-    "types": ["element-plus/global"],
+    "types": ["element-plus/global", "node"],
     "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules", "dist"]

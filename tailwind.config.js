@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'login': "url('./src/assets/img/loginBg.png')",
-        'inner-page': "url('./src/assets/img/innerBg.png')",
+        'login': "url('@/assets/img/loginBg.png')",
+        'inner-page': "url('@/assets/img/innerBg.png')",
       },
       colors: {
         'adx-base': '#5653F6',
