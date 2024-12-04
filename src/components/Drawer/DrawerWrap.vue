@@ -1,53 +1,52 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import type { TEmptyFn } from '@/type';
+import type { ElDrawer } from 'element-plus';
+import { ref } from 'vue'
 
-const { title, drawerCancel, drawerConfirm, subLoading } = defineProps<{
+const { title, subLoading, drawerConfirm, afterCloseCb } = defineProps<{
   title?: string
   subLoading?: boolean
-  drawerCancel?: () => void
-  drawerConfirm?: () => void
+  drawerConfirm?: TEmptyFn
+  afterCloseCb?: TEmptyFn
 }>()
 
 const drawerStatus = ref(false)
+const drawerRef = ref<InstanceType<typeof ElDrawer>>()
 
-const handleClose = (done: () => void) => {}
+const cancelClick = () => drawerRef.value?.handleClose()
 
-function cancelClick() {
-  drawerStatus.value = false
-  drawerCancel?.()
-}
-function confirmClick() {
-  drawerConfirm?.()
-}
+const confirmClick = () => drawerConfirm?.()
 
 const openDrawer = () => {
   drawerStatus.value = true
 }
 
-const beforeClose = (done: () => void) => {
-  if (subLoading) return
-  done()
+const beforeClose = (done: (cancel?: boolean) => void) => {
+  if (subLoading) {
+    done(true)
+  } else {
+    done()
+  }
+}
+
+const afterClose = () => {
+  afterCloseCb?.()
 }
 
 defineExpose({
   openDrawer,
+  closeDrawer: cancelClick,
 })
 </script>
 
 <template>
-  <el-drawer
-    v-model="drawerStatus"
-    :before-close="beforeClose"
-    direction="rtl"
-    :show-close="false"
-    class="drawer-wrap !bg-adx-gray !w-[55rem]"
-  >
+  <el-drawer ref="drawerRef" v-model="drawerStatus" :before-close="beforeClose" destroy-on-close @closed="afterClose"
+    :close-on-press-escape="false" direction="rtl" :show-close="false" class="drawer-wrap !bg-adx-gray !w-[55rem]">
     <template #header>
       <div class="h-14 bg-white flex items-center px-6">
         <h4 class="text-font-c1 font-semibold">{{ title }}</h4>
-        <el-button class="ml-auto !border-none" @click="cancelClick" :disabled="subLoading" circle
-          ><img src="@/assets/img/close.png" alt="" class="w-4 h-4"
-        /></el-button>
+        <el-button class="ml-auto !border-none" @click="cancelClick" :disabled="subLoading" circle><img
+            src="@/assets/img/close.png" alt="" class="w-4 h-4" /></el-button>
       </div>
     </template>
     <template #default>

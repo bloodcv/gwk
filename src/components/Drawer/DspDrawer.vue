@@ -1,23 +1,17 @@
 <script setup lang="ts">
 import DrawerWrap from '@/components/Drawer/DrawerWrap.vue'
-import { reactive, ref } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import CardInDrawer from '@/components/Drawer/CardInDrawer.vue'
 import type { FormInstance } from 'element-plus'
-import type { TDrawerType, TDspTableItem } from '@/type';
+import type { TDrawerType, TDspDrawerForm, TEmptyPromiseFn } from '@/type';
+import { getDspById, saveDsp } from '@/http/api';
 
-type TFormData = Partial<Omit<TDspTableItem, 'dsp'>>
-
-const { title } = defineProps<{
+const { title, drawerConfirmCb } = defineProps<{
   title?: string
-  id?: number
-  type: TDrawerType
+  drawerConfirmCb?: TEmptyPromiseFn
 }>()
-
-const formLoading = ref<boolean>(false)
-const subLoading = ref<boolean>(false)
-const drawerRef = ref<InstanceType<typeof DrawerWrap>>()
-const drawerFormRef = ref<FormInstance>()
-const drawerForm = reactive<TFormData>({
+const drawerFormInitData: TDspDrawerForm = {
+  dsp: undefined,
   id: undefined,
   bidFloor: undefined,
   bidFloorRatio: undefined,
@@ -27,27 +21,70 @@ const drawerForm = reactive<TFormData>({
   requestUrl: '',
   winPriceRatio: undefined,
   winPriceRatioRange: undefined,
+}
+const formLoading = ref<boolean>(false)
+const subLoading = ref<boolean>(false)
+const drawerRef = ref<InstanceType<typeof DrawerWrap>>()
+const drawerFormRef = ref<FormInstance>()
+const drawerForm = reactive<TDspDrawerForm>({
+  ...drawerFormInitData
 })
 
-const openDrawer = () => {
+const openDrawer = async ({
+  id,
+  type,
+}: {
+  id?: number
+  type: TDrawerType
+}) => {
+  if (id && (type === 'copy' || type === 'edit')) {
+    try {
+      formLoading.value = true
+      const { data } = await getDspById({ id });
+      (Object.keys(drawerForm) as (keyof TDspDrawerForm)[]).forEach(key => {
+        drawerForm[key] = data[key]
+      })
+      if (type === 'copy') {
+        drawerForm.id = undefined
+        drawerForm.dsp = undefined
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      formLoading.value = false
+    }
+  }
   drawerRef.value?.openDrawer()
 }
 
-/* const submitForm = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!', fields)
-    }
+const afterCloseCb = () => {
+  (Object.keys(drawerForm) as (keyof TDspDrawerForm)[]).forEach(key => {
+    drawerForm[key] = undefined
   })
 }
 
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.resetFields()
-} */
+const drawerConfirm = async () => {
+  try {
+    subLoading.value = true
+  await drawerFormRef.value?.validate(async (valid) => {
+    if (valid) {
+      const { data } = await saveDsp(drawerForm)
+      if (data?.id) {
+        subLoading.value = false
+        await nextTick()
+        drawerRef.value?.closeDrawer()
+        drawerConfirmCb?.()
+      }
+    } else {
+      throw new Error('saveDsp Error')
+    }
+  })
+  } catch (error) {
+    console.error(error)
+  } finally {
+    subLoading.value = false
+  }
+}
 
 defineExpose({
   openDrawer,
@@ -55,39 +92,35 @@ defineExpose({
 </script>
 
 <template>
-  <DrawerWrap ref="drawerRef" :title="title" :subLoading="subLoading">
+  <DrawerWrap ref="drawerRef" :title="title" :subLoading="subLoading || formLoading" :afterCloseCb="afterCloseCb" :drawerConfirm="drawerConfirm">
     <template #drawerContent>
       <CardInDrawer>
-        <el-form
-          v-loading="formLoading"
-          ref="drawerFormRef"
-          :model="drawerForm"
-          label-width="120"
-          label-position="left"
-        >
+        <el-form v-loading="formLoading" ref="drawerFormRef" :model="drawerForm" label-width="120"
+          label-position="left">
+          <h1>id: {{ drawerForm.id }}</h1>
           <el-form-item label="dsp名称" prop="name">
             <el-input placeholder="请输入" v-model="drawerForm.name" />
           </el-form-item>
           <el-form-item label="请求地址" prop="requestUrl">
             <el-input placeholder="请输入" v-model="drawerForm.requestUrl" />
           </el-form-item>
-          <el-form-item label="QPS上限" prop="maxQps">
-            <el-input placeholder="请输入" v-model="drawerForm.maxQps" />
+          <el-form-item label="QPS上限" type="number" prop="maxQps">
+            <el-input-number placeholder="请输入" v-model="drawerForm.maxQps" class="!w-full" />
           </el-form-item>
-          <el-form-item label="默认底价" prop="bidFloor">
-            <el-input placeholder="请输入" v-model="drawerForm.bidFloor" />
+          <el-form-item label="默认底价" type="number" prop="bidFloor">
+            <el-input-number placeholder="请输入" v-model="drawerForm.bidFloor" class="!w-full" />
           </el-form-item>
-          <el-form-item label="默认底价系数" prop="bidFloorRatio">
-            <el-input placeholder="请输入" v-model="drawerForm.bidFloorRatio" />
+          <el-form-item label="默认底价系数" type="number" prop="bidFloorRatio">
+            <el-input-number placeholder="请输入" v-model="drawerForm.bidFloorRatio" class="!w-full" />
           </el-form-item>
-          <el-form-item label="默认成交系数" prop="winPriceRatio">
-            <el-input placeholder="请输入" v-model="drawerForm.winPriceRatio" />
+          <el-form-item label="默认成交系数" type="number" prop="winPriceRatio">
+            <el-input-number placeholder="请输入" v-model="drawerForm.winPriceRatio" class="!w-full" />
           </el-form-item>
-          <el-form-item label="默认浮动系数" prop="winPriceRatioRange">
-            <el-input placeholder="请输入" v-model="drawerForm.winPriceRatioRange" />
+          <el-form-item label="默认浮动系数" type="number" prop="winPriceRatioRange">
+            <el-input-number placeholder="请输入" v-model="drawerForm.winPriceRatioRange" class="!w-full" />
           </el-form-item>
-          <el-form-item label="默认利润率" prop="profitRate">
-            <el-input placeholder="请输入" v-model="drawerForm.profitRate" />
+          <el-form-item label="默认利润率" type="number" prop="profitRate">
+            <el-input-number placeholder="请输入" v-model="drawerForm.profitRate" class="!w-full" />
           </el-form-item>
           <!-- <el-form-item>
             <el-button type="primary" @click="submitForm(drawerFormRef)"> Create </el-button>
@@ -99,4 +132,5 @@ defineExpose({
   </DrawerWrap>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>

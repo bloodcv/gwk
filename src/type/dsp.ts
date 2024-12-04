@@ -18,3 +18,5 @@ export type TDspTableApiProps = {
 }
 
 export type TGetDspListProps = TRequestTableBase & TDspTableApiProps
+
+export type TDspDrawerForm = Partial<TDspTableItem>

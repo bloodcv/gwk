@@ -1,5 +1,5 @@
 // 1、导入axios以及拦截器
-import type { TGetDspListProps } from "@/type";
+import type { TDspDrawerForm, TGetDspListProps } from "@/type";
 import service from ".";
 
 const http = <T>(query: {
@@ -33,5 +33,15 @@ export const testGetBlockingTool = (data: {
 
 export const getDspList = (data: TGetDspListProps) => http({
   url: '/dsp/find',
+  data
+})
+
+export const getDspById = (data: {id: number}) => http({
+  url: `/dsp/${data.id}`,
+  data
+})
+
+export const saveDsp = (data: TDspDrawerForm) => http({
+  url: '/dsp/save',
   data
 })

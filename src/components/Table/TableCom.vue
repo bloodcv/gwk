@@ -2,13 +2,22 @@
 import clsx from 'clsx'
 import { nextTick, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import type { ElTable } from "element-plus"
-import type { TPageInfo, TTableOptionsItem } from '@/type';
+import type { TEmptyPromiseFn, TPageInfo, TTableOptionsItem } from '@/type';
 
-const { className, tableOptions, tableData } = defineProps<{
+const { className, loading, tableOptions, tableData, searchHandle } = defineProps<{
+  loading?: boolean
   className?: string
   tableOptions: TTableOptionsItem[]
   tableData: Record<string, string | number | boolean>[]
+  searchHandle: TEmptyPromiseFn
 }>()
+
+const defaultPageInfo: TPageInfo = {
+  currentPage: 1,
+  pageSize: 5,
+  total: 0,
+  disabled: false,
+}
 
 /* const initData = [
   {
@@ -110,10 +119,7 @@ const { className, tableOptions, tableData } = defineProps<{
 
 // const tableData = reactive([...initData])
 const pageInfo = reactive<TPageInfo>({
-  currentPage: 1,
-  pageSize: 50,
-  total: 0,
-  disabled: false,
+  ...defaultPageInfo
 })
 const tableHeight = ref('auto')
 const tableRef = ref<InstanceType<typeof ElTable>>()
@@ -141,11 +147,14 @@ const fixTableHeight = async (h: number = 0, retry: number = 2) => {
 }) */
 
 const handleSizeChange = (val: number) => {
-  console.log(`${val} items per page`)
+  pageInfo.currentPage = defaultPageInfo.currentPage
+  pageInfo.pageSize = val
+  searchHandle?.()
 }
 
 const handleCurrentChange = async (val: number) => {
-  console.log(`current page: ${val}`)
+  pageInfo.currentPage = val
+  searchHandle?.()
   /* if (val == 6) {
     tableData.length = 0
     tableData.push({
@@ -179,6 +188,7 @@ defineExpose({
   <div :class="clsx('flex flex-col flex-1 overflow-hidden', className)">
     <div class="flex-1 overflow-hidden" ref="tableWrapRef">
       <el-table
+        v-loading="loading"
         ref="tableRef"
         :data="tableData"
         :height="tableHeight"
@@ -188,16 +198,16 @@ defineExpose({
         header-cell-class-name="!bg-[#F5F5FC] !text-font-c1 !font-medium"
         cell-class-name="!text-font-c1"
       >
-        <el-table-column v-for="_ in tableOptions" :key="_.key" :prop="_.key" :label="_.label"/>
-        <slot name="tableAction"/>
+        <el-table-column v-for="_ in tableOptions" :key="_.key" :prop="_.key" :label="_.label" />
+        <slot name="tableAction" />
       </el-table>
     </div>
     <el-pagination
       class="w-fit ml-auto mr-0 mt-6 pagination-wrap"
       :current-page="pageInfo.currentPage"
       :page-size="pageInfo.pageSize"
-      :page-sizes="[50, 100, 200, 300, 400]"
-      :disabled="pageInfo.disabled"
+      :page-sizes="[5, 10, 50, 100, 200, 300, 400]"
+      :disabled="loading"
       background
       layout="total, prev, pager, next, sizes, jumper"
       :total="pageInfo.total"

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import type { FTSearchHandle, TQueryFormMap, TTableOptionsItem, TDspTableItem, TGetDspListProps, TDrawerType } from '@/type'
+import type { FTSearchHandle, TQueryFormMap, TTableOptionsItem, TDspTableItem, TGetDspListProps, TDrawerType, TEmptyPromiseFn } from '@/type'
 import { getDspList } from '@/http/api';
 import DspDrawer from '@/components/Drawer/DspDrawer.vue'
 
 const drawerRef = ref<InstanceType<typeof DspDrawer>>()
 const queryComRef = ref()
 const tableComRef = ref()
+const tableLoading = ref<boolean>(false)
 const tableData = reactive<TDspTableItem[]>([])
 const tableOptions = reactive<TTableOptionsItem[]>([{
   key: 'id',
@@ -56,9 +57,7 @@ const queryFormMap = reactive<TQueryFormMap>({
 const drawerTitle = ref<string>('')
 const drawerType = ref<TDrawerType>('new')
 
-const searchHandle: FTSearchHandle = async () => {
-  getDspTableData()
-}
+const searchHandle: TEmptyPromiseFn = async () => getDspTableData()
 
 const getDspTableData = async () => {
   if (!queryComRef.value || !tableComRef.value) return;
@@ -73,9 +72,8 @@ const getDspTableData = async () => {
       page: currentPage - 1,
       size: pageSize
     }
-    console.log('params', params)
-
-    const { data: { content, totalElements }  } = await getDspList(params)
+    tableLoading.value = true
+    const { data: { content, totalElements } } = await getDspList(params)
     if (content) {
       tableData.length = 0
       tableData.push(...content as TDspTableItem[])
@@ -85,57 +83,83 @@ const getDspTableData = async () => {
     }
   } catch (error) {
     console.error(error)
-    throw new Error('Get Dsp List Error')
+  } finally {
+    tableLoading.value = false
   }
 }
 
 const openDrawer = ({
+  id,
+  dsp,
   type
 }: {
+  id?: number
+  dsp?: string
   type: TDrawerType
 }) => {
   drawerType.value = type
+  const params: {
+    id?: number
+    dsp?: string
+    type: TDrawerType
+  } = {
+    type: drawerType.value
+  }
   switch (type) {
     case 'edit':
+      params.id = id
+      params.dsp = dsp
       drawerTitle.value = '编辑DSP'
       break
-    case 'new':
     case 'copy':
+      params.id = id
+      drawerTitle.value = '复制DSP'
+      break
+    case 'new':
       drawerTitle.value = '新建DSP'
       break
     default:
       break
   }
-  drawerRef.value?.openDrawer()
+  drawerRef.value?.openDrawer(params)
 }
 
-onMounted(() => {
-  getDspTableData()
-})
+const drawerConfirmCb = async () => {
+  await getDspTableData()
+}
+
+onMounted(() => getDspTableData())
 
 </script>
 
 <template>
   <SubPageWrap>
-    <QueryCom ref="queryComRef" :queryFormMap="queryFormMap" :searchHandle="searchHandle">
+    <QueryCom :loading="tableLoading" ref="queryComRef" :queryFormMap="queryFormMap" :searchHandle="searchHandle">
       <!-- <QueryCom formActionClassName="basis-full"> -->
       <template #extraAction>
-        <el-button type="primary">新建DSP</el-button>
+        <el-button :loading="tableLoading" type="primary" @click="openDrawer({
+          type: 'new'
+        })">新建DSP</el-button>
       </template>
     </QueryCom>
-    <TableCom ref="tableComRef" :tableData="tableData" :tableOptions="tableOptions">
+    <TableCom :loading="tableLoading" ref="tableComRef" :tableData="tableData" :tableOptions="tableOptions" :searchHandle="searchHandle">
       <template #tableAction>
         <el-table-column fixed="right" label="操作">
-          <el-button link type="primary" size="large" @click="openDrawer({
-            type: 'edit'
-          })">编辑</el-button>
-          <el-button link type="primary" size="small" @click="openDrawer({
-            type: 'copy'
-          })">复制</el-button>
+          <template #default="scope">
+            <el-button link type="primary" size="large" @click="openDrawer({
+              id: scope.row.id,
+              dsp: scope.row.dsp,
+              type: 'edit'
+            })">编辑</el-button>
+            <el-button link type="primary" size="small" @click="openDrawer({
+              id: scope.row.id,
+              type: 'copy'
+            })">复制</el-button>
+          </template>
         </el-table-column>
       </template>
     </TableCom>
-    <DspDrawer ref="drawerRef" :title="drawerTitle" :type="drawerType" />
+    <DspDrawer ref="drawerRef" :title="drawerTitle" :drawerConfirmCb="drawerConfirmCb" />
   </SubPageWrap>
 </template>
 
