@@ -1,11 +1,12 @@
 // 1、导入axios以及拦截器
 import type { TDspDrawerForm, TGetDspListProps } from "@/type";
 import service from ".";
+import qs from 'qs'
 
 const http = <T>(query: {
   url: string,
   method?: 'get' | 'post',
-  data: T
+  data?: T
 }) => {
   return service({
     method: 'post',
@@ -32,8 +33,7 @@ export const testGetBlockingTool = (data: {
 })
 
 export const getDspList = (data: TGetDspListProps) => http({
-  url: '/dsp/find',
-  data
+  url: `/dsp/find${qs.stringify(data, { addQueryPrefix: true })}`,
 })
 
 export const getDspById = (data: {id: number}) => http({

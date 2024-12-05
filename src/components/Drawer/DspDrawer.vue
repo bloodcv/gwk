@@ -41,9 +41,7 @@ const openDrawer = async ({
     try {
       formLoading.value = true
       const { data } = await getDspById({ id });
-      (Object.keys(drawerForm) as (keyof TDspDrawerForm)[]).forEach(key => {
-        drawerForm[key] = data[key]
-      })
+      Object.assign(drawerForm, data)
       if (type === 'copy') {
         drawerForm.id = undefined
         drawerForm.dsp = undefined
@@ -58,9 +56,7 @@ const openDrawer = async ({
 }
 
 const afterCloseCb = () => {
-  (Object.keys(drawerForm) as (keyof TDspDrawerForm)[]).forEach(key => {
-    drawerForm[key] = undefined
-  })
+  Object.assign(drawerForm, drawerFormInitData)
 }
 
 const drawerConfirm = async () => {
@@ -97,7 +93,6 @@ defineExpose({
       <CardInDrawer>
         <el-form v-loading="formLoading" ref="drawerFormRef" :model="drawerForm" label-width="120"
           label-position="left">
-          <h1>id: {{ drawerForm.id }}</h1>
           <el-form-item label="dsp名称" prop="name">
             <el-input placeholder="请输入" v-model="drawerForm.name" />
           </el-form-item>

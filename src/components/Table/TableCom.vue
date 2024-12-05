@@ -122,29 +122,33 @@ const pageInfo = reactive<TPageInfo>({
   ...defaultPageInfo
 })
 const tableHeight = ref('auto')
-const tableRef = ref<InstanceType<typeof ElTable>>()
 const tableWrapRef = ref<HTMLDivElement>()
 
-const fixTableHeight = async (h: number = 0, retry: number = 2) => {
+const fixTableHeight = async (retry: number = 2) => {
   await nextTick()
-  const height = tableRef.value?.height
+  const height = tableHeight.value
   if (tableWrapRef.value && tableWrapRef.value?.clientHeight > 40) {
-    if (height === 'auto' && tableWrapRef.value.clientHeight === h) {
+    if (height === 'auto') {
       if (retry > 1) {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        fixTableHeight(tableWrapRef.value?.clientHeight, retry - 1)
+        await new Promise((resolve) => setTimeout(resolve, 500))
+        fixTableHeight(retry - 1)
       } else {
         tableHeight.value = `${tableWrapRef.value?.clientHeight}px`
       }
       return
     }
+  } else {
+    fixTableHeight()
   }
-  fixTableHeight(tableWrapRef.value?.clientHeight)
 }
 
-/* watch(() => tableData, (newValue, oldValue) => {
+watch(() => tableData, async () => {
+  tableHeight.value = 'auto'
   fixTableHeight()
-}) */
+}, {
+  deep: true,
+  immediate: true,
+})
 
 const handleSizeChange = (val: number) => {
   pageInfo.currentPage = defaultPageInfo.currentPage
@@ -155,26 +159,7 @@ const handleSizeChange = (val: number) => {
 const handleCurrentChange = async (val: number) => {
   pageInfo.currentPage = val
   searchHandle?.()
-  /* if (val == 6) {
-    tableData.length = 0
-    tableData.push({
-      date: '2016-05-03',
-      name: 'Tom',
-      address: 'No. 189, Grove St, Los Angeles',
-    })
-  } else {
-    if (tableData.length !== initData.length) {
-      tableData.length = 0
-      tableData.push(...initData)
-    }
-  }
-  tableHeight.value = 'auto'
-  fixTableHeight() */
 }
-
-onMounted(async () => {
-  fixTableHeight()
-})
 
 defineExpose({
   pageInfo,
@@ -189,7 +174,6 @@ defineExpose({
     <div class="flex-1 overflow-hidden" ref="tableWrapRef">
       <el-table
         v-loading="loading"
-        ref="tableRef"
         :data="tableData"
         :height="tableHeight"
         max-height="100%"
