@@ -117,10 +117,6 @@ defineExpose({
           <el-form-item label="默认利润率" type="number" prop="profitRate">
             <el-input-number placeholder="请输入" v-model="drawerForm.profitRate" class="!w-full" />
           </el-form-item>
-          <!-- <el-form-item>
-            <el-button type="primary" @click="submitForm(drawerFormRef)"> Create </el-button>
-            <el-button @click="resetForm(drawerFormRef)">Reset</el-button>
-          </el-form-item> -->
         </el-form>
       </CardInDrawer>
     </template>

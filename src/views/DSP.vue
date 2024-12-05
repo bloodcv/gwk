@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
-import type { FTSearchHandle, TQueryFormMap, TTableOptionsItem, TDspTableItem, TGetDspListProps, TDrawerType, TEmptyPromiseFn } from '@/type'
+import type { TQueryFormMap, TTableOptionsItem, TDspTableItem, TGetDspListProps, TDrawerType, TEmptyPromiseFn } from '@/type'
 import { getDspList } from '@/http/api';
 import DspDrawer from '@/components/Drawer/DspDrawer.vue'
 
@@ -57,9 +57,9 @@ const queryFormMap = reactive<TQueryFormMap>({
 const drawerTitle = ref<string>('')
 const drawerType = ref<TDrawerType>('new')
 
-const searchHandle: TEmptyPromiseFn = async () => getDspTableData()
+const searchHandle: TEmptyPromiseFn = async () => getTableData()
 
-const getDspTableData = async () => {
+const getTableData = async () => {
   if (!queryComRef.value || !tableComRef.value) return;
 
   try {
@@ -125,10 +125,10 @@ const openDrawer = ({
 }
 
 const drawerConfirmCb = async () => {
-  await getDspTableData()
+  await getTableData()
 }
 
-onMounted(() => getDspTableData())
+onMounted(() => getTableData())
 
 </script>
 

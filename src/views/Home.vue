@@ -1,12 +1,29 @@
 <script setup lang="ts">
 import { ERouterName, routerMapFlat } from '@/router'
+import { useDictStore } from '@/stores/dict';
 import clsx from 'clsx'
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router'
-const route = useRoute()
 
-onMounted(() => {
+const route = useRoute()
+const dictStore = useDictStore()
+
+const initDictData = async () => {
+  try {
+    dictStore.dictLoading = true
+    Promise.allSettled([
+      dictStore.updateSupplierList(),
+    ])
+  } catch (error) {
+    console.error('initDictData error:', error)
+  } finally {
+    dictStore.dictLoading = false
+  }
+}
+
+onMounted(async () => {
   console.log(import.meta.env.MODE)
+  await initDictData()
 })
 </script>
 

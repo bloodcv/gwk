@@ -1,5 +1,5 @@
 // 1、导入axios以及拦截器
-import type { TDspDrawerForm, TGetDspListProps } from "@/type";
+import type { TDspDrawerForm, TGetDspListProps, TGetMediaListProps, TMediaDrawerForm, TRequestTableBase } from "@/type";
 import service from ".";
 import qs from 'qs'
 
@@ -43,5 +43,24 @@ export const getDspById = (data: {id: number}) => http({
 
 export const saveDsp = (data: TDspDrawerForm) => http({
   url: '/dsp/save',
+  data
+})
+
+export const getMediaList = (data: TGetMediaListProps) => http({
+  url: `/media/find${qs.stringify(data, { addQueryPrefix: true })}`,
+})
+
+export const getMediaById = (data: {id: number}) => http({
+  url: `/media/${data.id}`,
+  data
+})
+
+export const saveMedia = (data: TMediaDrawerForm) => http({
+  url: '/media/save',
+  data
+})
+
+export const getSupplierList = (data: TRequestTableBase) => http({
+  url: `/supplier/find${qs.stringify(data, { addQueryPrefix: true })}`,
   data
 })
