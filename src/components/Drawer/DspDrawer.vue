@@ -94,10 +94,10 @@ defineExpose({
         <el-form v-loading="formLoading" ref="drawerFormRef" :model="drawerForm" label-width="120"
           label-position="left">
           <el-form-item label="dsp名称" prop="name">
-            <el-input placeholder="请输入" v-model="drawerForm.name" />
+            <el-input placeholder="请输入" v-model.trim="drawerForm.name" />
           </el-form-item>
           <el-form-item label="请求地址" prop="requestUrl">
-            <el-input placeholder="请输入" v-model="drawerForm.requestUrl" />
+            <el-input placeholder="请输入" v-model.trim="drawerForm.requestUrl" />
           </el-form-item>
           <el-form-item label="QPS上限" type="number" prop="maxQps">
             <el-input-number placeholder="请输入" v-model="drawerForm.maxQps" class="!w-full" />

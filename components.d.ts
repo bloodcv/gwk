@@ -31,6 +31,7 @@ declare module 'vue' {
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     MediaDrawer: typeof import('./src/components/Drawer/MediaDrawer.vue')['default']
     NavItem: typeof import('./src/components/NavItem.vue')['default']
+    NewAdDrawer: typeof import('./src/components/Drawer/NewAdDrawer.vue')['default']
     PageWrap: typeof import('./src/components/Layout/PageWrap.vue')['default']
     QueryCom: typeof import('./src/components/Query/QueryCom.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

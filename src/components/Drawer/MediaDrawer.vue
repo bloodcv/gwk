@@ -108,7 +108,7 @@ defineExpose({
             </el-select>
           </el-form-item>
           <el-form-item label="媒体名称" prop="name">
-            <el-input placeholder="请输入" v-model="drawerForm.name" />
+            <el-input placeholder="请输入" v-model.trim="drawerForm.name" />
           </el-form-item>
           <el-form-item label="媒体类型" prop="mediaType"> </el-form-item>
         </el-form>

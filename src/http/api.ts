@@ -1,5 +1,5 @@
 // 1、导入axios以及拦截器
-import type { TDspDrawerForm, TGetDspListProps, TGetMediaListProps, TMediaDrawerForm, TRequestTableBase } from "@/type";
+import type { TDspDrawerForm, TGetDspListProps, TGetMediaListProps, TGetNewAdListProps, TMediaDrawerForm, TNewAdDrawerForm, TRequestTableBase } from "@/type";
 import service from ".";
 import qs from 'qs'
 
@@ -32,6 +32,11 @@ export const testGetBlockingTool = (data: {
   data
 })
 
+export const getSupplierList = (data: TRequestTableBase) => http({
+  url: `/supplier/find${qs.stringify(data, { addQueryPrefix: true })}`,
+  data
+})
+
 export const getDspList = (data: TGetDspListProps) => http({
   url: `/dsp/find${qs.stringify(data, { addQueryPrefix: true })}`,
 })
@@ -60,7 +65,17 @@ export const saveMedia = (data: TMediaDrawerForm) => http({
   data
 })
 
-export const getSupplierList = (data: TRequestTableBase) => http({
-  url: `/supplier/find${qs.stringify(data, { addQueryPrefix: true })}`,
+export const getNewAdList = (data: TGetNewAdListProps) => http({
+  url: `/slot/find${qs.stringify(data, { addQueryPrefix: true })}`,
+})
+
+export const getNewAdById = (data: {id: number}) => http({
+  url: `/slot/${data.id}`,
   data
 })
+
+export const saveNewAd = (data: TNewAdDrawerForm) => http({
+  url: '/slot/save',
+  data
+})
+

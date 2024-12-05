@@ -67,7 +67,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       >
         <el-form-item prop="name" class="!mb-8">
           <el-input
-            v-model="ruleForm.name"
+            v-model.trim="ruleForm.name"
             clearable
             :class="
               clsx('h-12 rounded-xl !text-base', {
@@ -79,7 +79,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         </el-form-item>
         <el-form-item prop="password" class="!mb-14">
           <el-input
-            v-model="ruleForm.password"
+            v-model.trim="ruleForm.password"
             clearable
             :class="
               clsx('h-12 rounded-xl !text-base', {
