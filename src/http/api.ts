@@ -1,5 +1,5 @@
 // 1、导入axios以及拦截器
-import type { TDspDrawerForm, TGetDspListProps, TGetMediaListProps, TGetNewAdListProps, TMediaDrawerForm, TNewAdDrawerForm, TRequestTableBase } from "@/type";
+import type { TDspDrawerForm, TGetDspListProps, TGetMediaListProps, TGetNewAdListProps, TGetTemplateListProps, TMediaDrawerForm, TNewAdSaveForm, TRequestTableBase, TTemplateDrawerForm } from "@/type";
 import service from ".";
 import qs from 'qs'
 
@@ -34,7 +34,12 @@ export const testGetBlockingTool = (data: {
 
 export const getSupplierList = (data: TRequestTableBase) => http({
   url: `/supplier/find${qs.stringify(data, { addQueryPrefix: true })}`,
-  data
+  method: 'get',
+})
+
+export const getLists = () => http({
+  url: `/dict/list`,
+  method: 'get',
 })
 
 export const getDspList = (data: TGetDspListProps) => http({
@@ -74,8 +79,22 @@ export const getNewAdById = (data: {id: number}) => http({
   data
 })
 
-export const saveNewAd = (data: TNewAdDrawerForm) => http({
+export const saveNewAd = (data: TNewAdSaveForm) => http({
   url: '/slot/save',
+  data
+})
+
+export const getTemplateList = (data: TGetTemplateListProps) => http({
+  url: `/template/find${qs.stringify(data, { addQueryPrefix: true })}`,
+})
+
+export const getTemplateById = (data: {id: number}) => http({
+  url: `/template/${data.id}`,
+  data
+})
+
+export const saveTemplate = (data: TTemplateDrawerForm) => http({
+  url: '/template/save',
   data
 })
 

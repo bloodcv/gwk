@@ -5,12 +5,7 @@ export type TSupplierListItem = {
   active: boolean
   id: number
   name: string
-  supplier: {
-    id: number
-    mediaType: string,
-    name: string,
-    supplier: string,
-  }
+  bidFloor: number
 }
 
 export * from './query'
@@ -18,3 +13,4 @@ export * from './table'
 export * from './dsp'
 export * from './media'
 export * from './newAd'
+export * from './template'

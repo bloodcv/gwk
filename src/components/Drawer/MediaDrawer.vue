@@ -102,15 +102,28 @@ defineExpose({
               <el-option
                 v-for="_ in dictStore.supplierList"
                 :key="_.id"
-                :label="_.supplier.name"
-                :value="_.supplier.supplier"
+                :label="_.name"
+                :value="_.name"
               />
             </el-select>
           </el-form-item>
           <el-form-item label="媒体名称" prop="name">
             <el-input placeholder="请输入" v-model.trim="drawerForm.name" />
           </el-form-item>
-          <el-form-item label="媒体类型" prop="mediaType"> </el-form-item>
+          <el-form-item label="媒体类型" prop="mediaType">
+            <el-select
+              v-model="drawerForm.mediaType"
+              placeholder="请选择"
+              :loading="dictStore.dictLoading"
+            >
+              <el-option
+                v-for="_ in dictStore.MediaTypeList"
+                :key="_"
+                :label="_"
+                :value="_"
+              />
+            </el-select>
+          </el-form-item>
         </el-form>
       </CardInDrawer>
     </template>

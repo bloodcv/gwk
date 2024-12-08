@@ -25,4 +25,9 @@ export type TNewAdTableApiProps = {
 
 export type TGetNewAdListProps = TRequestTableBase & TNewAdTableApiProps
 
-export type TNewAdDrawerForm = Partial<TNewAdTableItem>
+export type TNewAdSaveForm = Partial<TNewAdTableItem>
+
+export type TNewAdDrawerForm = TNewAdSaveForm & {
+  openTypeSec: string[]
+}
+

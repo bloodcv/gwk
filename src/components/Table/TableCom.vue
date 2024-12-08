@@ -14,7 +14,7 @@ const { className, loading, tableOptions, tableData, searchHandle } = defineProp
 
 const defaultPageInfo: TPageInfo = {
   currentPage: 1,
-  pageSize: 5,
+  pageSize: 100,
   total: 0,
   disabled: false,
 }
@@ -91,7 +91,7 @@ defineExpose({
       class="w-fit ml-auto mr-0 mt-6 pagination-wrap"
       :current-page="pageInfo.currentPage"
       :page-size="pageInfo.pageSize"
-      :page-sizes="[5, 10, 50, 100, 200, 300, 400]"
+      :page-sizes="[100, 200, 300, 400]"
       :disabled="loading"
       background
       layout="total, prev, pager, next, sizes, jumper"

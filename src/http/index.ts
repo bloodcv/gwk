@@ -2,7 +2,8 @@ import axios from 'axios'
 import router, { ERouterName } from '@/router'
 
 const service = axios.create({
-	baseURL: import.meta.env.MODE === 'development' ? '/api' : 'http://39.106.229.200/console/', // 所有的请求地址前缀部分
+	baseURL: import.meta.env.MODE === 'development' ? '/api' : '/console/', // 所有的请求地址前缀部分
+	// baseURL: import.meta.env.MODE === 'development' ? '/api' : 'http://39.106.229.200/console/', // 所有的请求地址前缀部分
 	timeout: 60000, // 请求超时时间毫秒
 	/* withCredentials: true, // 异步请求携带cookie
 	headers: {

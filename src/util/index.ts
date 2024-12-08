@@ -8,3 +8,5 @@ export const capitalizeFirstLetter = (str?: string) => {
   }
   return str
 }
+
+export const OPEN_TYPE_SPLIT = ','

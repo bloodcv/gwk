@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
 import { capitalizeFirstLetter } from "@/util"
 
 export enum ERouterName {
@@ -42,7 +42,7 @@ export const routerMapFlat: Record<ERouterName, {
   },
   [ERouterName.Template]: {
     routerName: 'template',
-    cnName: '模版管理'
+    cnName: '模板管理'
   },
   [ERouterName.Flow]: {
     routerName: 'flow',
@@ -85,7 +85,7 @@ const routerMap : Record<string, {
   }
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',

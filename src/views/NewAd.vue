@@ -28,10 +28,6 @@ const tableOptions = reactive<TTableOptionsItem[]>([{
   key: 'slotType',
   label: '类型',
 },
-/* {
-  key: 'winPriceRatio',
-  label: '供应商',
-} */
 {
   key: 'openType',
   label: '唤端方式',
@@ -39,10 +35,6 @@ const tableOptions = reactive<TTableOptionsItem[]>([{
   key: 'bidType',
   label: '合作模式',
 }
-/* {
-  key: 'profitRate',
-  label: '黑名单',
-} */
 ])
 const queryFormMap = reactive<TQueryFormMap>({
   search: {
@@ -89,17 +81,14 @@ const getTableData = async () => {
 
 const openDrawer = ({
   id,
-  dsp,
   type
 }: {
   id?: number
-  dsp?: string
   type: TDrawerType
 }) => {
   drawerType.value = type
   const params: {
     id?: number
-    dsp?: string
     type: TDrawerType
   } = {
     type: drawerType.value

@@ -13,6 +13,8 @@ const initDictData = async () => {
     dictStore.dictLoading = true
     Promise.allSettled([
       dictStore.updateSupplierList(),
+      dictStore.updateMediaIdList(),
+      dictStore.updateLists(),
     ])
   } catch (error) {
     console.error('initDictData error:', error)

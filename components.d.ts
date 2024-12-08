@@ -9,10 +9,10 @@ declare module 'vue' {
   export interface GlobalComponents {
     CardInDrawer: typeof import('./src/components/Drawer/CardInDrawer.vue')['default']
     ContentWrap: typeof import('./src/components/Layout/ContentWrap.vue')['default']
-    copy: typeof import('./src/components/Drawer/DspDrawer copy.vue')['default']
     DrawerWrap: typeof import('./src/components/Drawer/DrawerWrap.vue')['default']
     DspDrawer: typeof import('./src/components/Drawer/DspDrawer.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElDrawer: typeof import('element-plus/es')['ElDrawer']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
@@ -38,6 +38,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SubPageWrap: typeof import('./src/components/Layout/SubPageWrap.vue')['default']
     TableCom: typeof import('./src/components/Table/TableCom.vue')['default']
+    TemplateDrawer: typeof import('./src/components/Drawer/TemplateDrawer.vue')['default']
     UserInfo: typeof import('./src/components/UserInfo.vue')['default']
   }
   export interface ComponentCustomProperties {
