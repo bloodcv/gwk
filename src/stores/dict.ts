@@ -1,11 +1,13 @@
-import { getLists, getMediaList, getSupplierList } from '@/http/api'
-import type { TMediaTableItem, TSupplierListItem } from '@/type'
+import { getLists, getMediaList, getNewAdList, getSupplierList } from '@/http/api'
+import type { TMediaTableItem, TNewAdTableItem, TSupplierListItem } from '@/type'
 import { defineStore } from 'pinia'
+
+type IDictBase = 'BidTypeList' | 'DspList' | 'EventList' | 'MediaList' | 'MediaTypeList' | 'OpenTypeList' | 'SlotTypeList' | 'ValueTypeList' | 'TemplateFieldList' | 'TemplateStyleList' | 'TemplateTypeList'
 
 type TDictStoreState = {
   dictLoading: boolean
+  adList: TNewAdTableItem[]
   supplierList: TSupplierListItem[]
-  // templateList: string[]
   MediaIdList: TMediaTableItem[]
   MediaList: string[]
   DspList: string[]
@@ -15,13 +17,16 @@ type TDictStoreState = {
   OpenTypeList: string[] // 唤端方式
   SlotTypeList: string[] // 类型
   ValueTypeList: string[]
+  TemplateFieldList: string[]
+  TemplateStyleList: string[]
+  TemplateTypeList: string[]
 }
 
 export const useDictStore = defineStore('dict', {
   state: (): TDictStoreState => ({
     dictLoading: false,
+    adList: [],
     supplierList: [],
-    // templateList: [],
     MediaIdList: [],
     MediaList: [],
     DspList: [],
@@ -30,7 +35,10 @@ export const useDictStore = defineStore('dict', {
     MediaTypeList: [],
     OpenTypeList: [],
     SlotTypeList: [],
-    ValueTypeList: []
+    ValueTypeList: [],
+    TemplateFieldList: [],
+    TemplateStyleList: [],
+    TemplateTypeList: []
   }),
   actions: {
     async updateSupplierList() {
@@ -57,11 +65,23 @@ export const useDictStore = defineStore('dict', {
         console.log('getMediaList error', error);
       }
     },
+    async updateAdListList() {
+      try {
+        const { data: { content } } = await getNewAdList({
+          page: 0,
+          size: 9999999,
+          sort: ''
+        })
+        content && (this.adList = [...content]);
+      } catch (error) {
+        console.log('getMediaList error', error);
+      }
+    },
     async updateLists() {
       try {
         const { data } = await getLists()
         data && Object.entries(data).forEach(([key, value]) => {
-          const storeKey = `${key}List` as (keyof Omit<TDictStoreState, 'dictLoading' | 'supplierList' | 'MediaIdList'>)
+          const storeKey = `${key}List` as (keyof Pick<TDictStoreState, IDictBase>)
           this[storeKey] && value && (this[storeKey] = [...(value as string[])])
         })
       } catch (error) {

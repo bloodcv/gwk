@@ -1,5 +1,5 @@
 // 1、导入axios以及拦截器
-import type { TDspDrawerForm, TGetDspListProps, TGetMediaListProps, TGetNewAdListProps, TGetTemplateListProps, TMediaDrawerForm, TNewAdSaveForm, TRequestTableBase, TTemplateDrawerForm } from "@/type";
+import type { TBlockingToolsDrawerForm, TDeliveryPlansDrawerForm, TDspDrawerForm, TFlowDrawerForm, TGetBlockingToolsListProps, TGetDeliveryPlansListProps, TGetDspListProps, TGetFlowListProps, TGetMediaListProps, TGetNewAdListProps, TGetTemplateListProps, TMediaDrawerForm, TNewAdSaveForm, TRequestTableBase, TTemplateDrawerForm } from "@/type";
 import service from ".";
 import qs from 'qs'
 
@@ -97,4 +97,49 @@ export const saveTemplate = (data: TTemplateDrawerForm) => http({
   url: '/template/save',
   data
 })
+
+export const getFlowList = (data: TGetFlowListProps) => http({
+  url: `/flowPackage/find${qs.stringify(data, { addQueryPrefix: true })}`,
+})
+
+export const getFlowById = (data: {id: number}) => http({
+  url: `/flowPackage/${data.id}`,
+  data
+})
+
+export const saveFlow = (data: TFlowDrawerForm) => http({
+  url: '/flowPackage/save',
+  data
+})
+
+export const getBlockingToolsList = (data: TGetBlockingToolsListProps) => http({
+  url: `/blockingTool/find${qs.stringify(data, { addQueryPrefix: true })}`,
+})
+
+export const getBlockingToolsById = (data: {id: number}) => http({
+  url: `/blockingTool/${data.id}`,
+  data
+})
+
+export const saveBlockingTools = (data: TBlockingToolsDrawerForm) => http({
+  url: '/blockingTool/save',
+  data
+})
+
+export const getDeliveryPlansList = (data: TGetDeliveryPlansListProps) => http({
+  url: `/blockingTool/find${qs.stringify(data, { addQueryPrefix: true })}`,
+})
+
+export const getDeliveryPlansById = (data: {id: number}) => http({
+  url: `/blockingTool/${data.id}`,
+  data
+})
+
+export const saveDeliveryPlans = (data: TDeliveryPlansDrawerForm) => http({
+  url: '/blockingTool/save',
+  data
+})
+
+
+
 

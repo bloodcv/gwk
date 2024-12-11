@@ -7,8 +7,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BlockingToolsDrawer: typeof import('./src/components/Drawer/BlockingToolsDrawer.vue')['default']
     CardInDrawer: typeof import('./src/components/Drawer/CardInDrawer.vue')['default']
     ContentWrap: typeof import('./src/components/Layout/ContentWrap.vue')['default']
+    DeliveryPlansDrawer: typeof import('./src/components/Drawer/DeliveryPlansDrawer.vue')['default']
     DrawerWrap: typeof import('./src/components/Drawer/DrawerWrap.vue')['default']
     DspDrawer: typeof import('./src/components/Drawer/DspDrawer.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -24,6 +26,7 @@ declare module 'vue' {
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    FlowDrawer: typeof import('./src/components/Drawer/FlowDrawer.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']

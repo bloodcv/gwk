@@ -11,6 +11,7 @@ import {
   type TTemplateTableItem,
 } from '@/type'
 import { getTemplateById, saveTemplate } from '@/http/api'
+import { useDictStore } from '@/stores/dict'
 
 const drawerFormConfig: {
   key: keyof TTemplateTableItem['valueTypeMap']
@@ -134,6 +135,7 @@ const { title, drawerConfirmCb } = defineProps<{
   drawerConfirmCb?: TEmptyPromiseFn
 }>()
 const drawerFormInitData: TTemplateDrawerForm = {
+  id: undefined,
   actionText: undefined,
   actionType: '',
   adWords: undefined,
@@ -188,6 +190,7 @@ const drawerFormRef = ref<FormInstance>()
 const drawerForm = reactive<TTemplateDrawerForm>({
   ...drawerFormInitData,
 })
+const dictStore = useDictStore()
 
 const openDrawer = async ({ id, type }: { id?: number; type: TDrawerType }) => {
   if (id && (type === 'copy' || type === 'edit')) {
@@ -195,6 +198,7 @@ const openDrawer = async ({ id, type }: { id?: number; type: TDrawerType }) => {
       formLoading.value = true
       const { data } = await getTemplateById({ id })
       Object.assign(drawerForm, data)
+      Object.assign(drawerForm.valueTypeMap, data.valueTypeMap || {})
       if (type === 'copy') {
         drawerForm.id = undefined
       }
@@ -209,6 +213,7 @@ const openDrawer = async ({ id, type }: { id?: number; type: TDrawerType }) => {
 
 const afterCloseCb = () => {
   Object.assign(drawerForm, drawerFormInitData)
+  Object.assign(drawerForm.valueTypeMap, drawerFormInitData.valueTypeMap)
 }
 
 const drawerConfirm = async () => {
@@ -269,7 +274,7 @@ defineExpose({
             </el-form-item>
             <el-form-item label="优先级" class="priority w-1/4" :prop="`valueTypeMap.${key}`">
               <el-select v-model="drawerForm.valueTypeMap[`${key}`]" placeholder="请选择">
-                <el-option v-for="_ in Object.values(PRIORITY)" :key="_" :label="_" :value="_" />
+                <el-option v-for="_ in dictStore.ValueTypeList" :key="_" :label="_" :value="_" />
               </el-select>
             </el-form-item>
           </div>

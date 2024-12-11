@@ -15,6 +15,7 @@ const initDictData = async () => {
       dictStore.updateSupplierList(),
       dictStore.updateMediaIdList(),
       dictStore.updateLists(),
+      dictStore.updateAdListList(),
     ])
   } catch (error) {
     console.error('initDictData error:', error)

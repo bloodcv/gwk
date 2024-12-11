@@ -181,6 +181,7 @@ defineExpose({
             <el-select
               v-model="drawerForm.openTypeSec"
               placeholder="请选择"
+              filterable
               :loading="dictStore.dictLoading"
               multiple
               clearable
