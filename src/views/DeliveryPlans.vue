@@ -10,8 +10,29 @@ const tableComRef = ref()
 const tableLoading = ref<boolean>(false)
 const tableData = reactive<TDeliveryPlansTableItem[]>([])
 const tableOptions = reactive<TTableOptionsItem[]>([{
+  key: 'active',
+  label: '状态',
+}, {
   key: 'id',
-  label: 'dspID',
+  label: '计划id',
+}, {
+  key: 'name',
+  label: '计划名称',
+}, {
+  key: 'dsp',
+  label: 'DSP',
+}, {
+  key: 'settleDspBidType',
+  label: 'DSP结算类型',
+}, {
+  key: 'flowPackageId',
+  label: '流量包',
+}, {
+  key: 'media',
+  label: '媒体名称',
+}, {
+  key: 'slotId',
+  label: '广告位名称',
 }])
 const queryFormMap = reactive<TQueryFormMap>({
   search: {

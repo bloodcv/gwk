@@ -51,7 +51,7 @@ defineExpose({
     </template>
     <template #default>
       <el-scrollbar>
-        <div class="py-4 px-6 flex flex-col gap-4">
+        <div class="py-4 px-6">
           <slot name="drawerContent" />
         </div>
       </el-scrollbar>

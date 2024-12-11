@@ -100,6 +100,7 @@ export const saveTemplate = (data: TTemplateDrawerForm) => http({
 
 export const getFlowList = (data: TGetFlowListProps) => http({
   url: `/flowPackage/find${qs.stringify(data, { addQueryPrefix: true })}`,
+  method: 'get'
 })
 
 export const getFlowById = (data: {id: number}) => http({
@@ -127,16 +128,16 @@ export const saveBlockingTools = (data: TBlockingToolsDrawerForm) => http({
 })
 
 export const getDeliveryPlansList = (data: TGetDeliveryPlansListProps) => http({
-  url: `/blockingTool/find${qs.stringify(data, { addQueryPrefix: true })}`,
+  url: `/campaign/find${qs.stringify(data, { addQueryPrefix: true })}`,
 })
 
 export const getDeliveryPlansById = (data: {id: number}) => http({
-  url: `/blockingTool/${data.id}`,
+  url: `/campaign/${data.id}`,
   data
 })
 
 export const saveDeliveryPlans = (data: TDeliveryPlansDrawerForm) => http({
-  url: '/blockingTool/save',
+  url: '/campaign/save',
   data
 })
 

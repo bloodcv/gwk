@@ -1,5 +1,5 @@
-import { getLists, getMediaList, getNewAdList, getSupplierList } from '@/http/api'
-import type { TMediaTableItem, TNewAdTableItem, TSupplierListItem } from '@/type'
+import { getFlowList, getLists, getMediaList, getNewAdList, getSupplierList } from '@/http/api'
+import type { TFlowTableItem, TMediaTableItem, TNewAdTableItem, TSupplierListItem } from '@/type'
 import { defineStore } from 'pinia'
 
 type IDictBase = 'BidTypeList' | 'DspList' | 'EventList' | 'MediaList' | 'MediaTypeList' | 'OpenTypeList' | 'SlotTypeList' | 'ValueTypeList' | 'TemplateFieldList' | 'TemplateStyleList' | 'TemplateTypeList'
@@ -7,6 +7,7 @@ type IDictBase = 'BidTypeList' | 'DspList' | 'EventList' | 'MediaList' | 'MediaT
 type TDictStoreState = {
   dictLoading: boolean
   adList: TNewAdTableItem[]
+  flowList: TFlowTableItem[]
   supplierList: TSupplierListItem[]
   MediaIdList: TMediaTableItem[]
   MediaList: string[]
@@ -26,6 +27,7 @@ export const useDictStore = defineStore('dict', {
   state: (): TDictStoreState => ({
     dictLoading: false,
     adList: [],
+    flowList: [],
     supplierList: [],
     MediaIdList: [],
     MediaList: [],
@@ -65,7 +67,7 @@ export const useDictStore = defineStore('dict', {
         console.log('getMediaList error', error);
       }
     },
-    async updateAdListList() {
+    async updateAdList() {
       try {
         const { data: { content } } = await getNewAdList({
           page: 0,
@@ -74,7 +76,19 @@ export const useDictStore = defineStore('dict', {
         })
         content && (this.adList = [...content]);
       } catch (error) {
-        console.log('getMediaList error', error);
+        console.log('getNewAdList error', error);
+      }
+    },
+    async updateFlowList() {
+      try {
+        const { data: { content } } = await getFlowList({
+          page: 0,
+          size: 9999999,
+          sort: ''
+        })
+        content && (this.flowList = [...content]);
+      } catch (error) {
+        console.log('getFlowList error', error);
       }
     },
     async updateLists() {
