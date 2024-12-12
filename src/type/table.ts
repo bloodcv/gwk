@@ -1,6 +1,7 @@
 export type TTableOptionsItem = {
   key: string
   label: string
+  slot?: string
 }
 
 export type TPageInfo = {

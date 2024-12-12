@@ -72,7 +72,7 @@ defineExpose({
         <slot name="formAction" />
       </el-form-item>
     </el-form>
-    <div class="ml-auto mr-0">
+    <div class="ml-auto mr-0 flex gap-3">
       <slot name="extraAction" />
     </div>
   </div>

@@ -83,7 +83,10 @@ defineExpose({
         header-cell-class-name="!bg-[#F5F5FC] !text-font-c1 !font-medium"
         cell-class-name="!text-font-c1"
       >
-        <el-table-column v-for="_ in tableOptions" :key="_.key" :prop="_.key" :label="_.label" />
+        <template v-for="_ in tableOptions" :key="_.key" :prop="_.key" :label="_.label">
+          <el-table-column v-if="!_.slot" :prop="_.key" :label="_.label" />
+          <slot v-else :name="_.slot" />
+        </template>
         <slot name="tableAction" />
       </el-table>
     </div>
@@ -114,5 +117,10 @@ defineExpose({
   :deep(.el-pager li.more) {
     @apply border-none;
   }
+}
+
+:deep(.el-switch) {
+  --el-switch-on-color: #13ce66;
+  --el-switch-off-color: #ff4949;
 }
 </style>

@@ -3,6 +3,7 @@ import type { TRequestTableBase } from "./query"
 export type TDeliveryPlansTableItem = {
   id: number
   active: boolean // 计划状态
+  activeLoading?: boolean
   name: string // 计划名称
   dsp: string // DSP
   supplier: string // 供应商
